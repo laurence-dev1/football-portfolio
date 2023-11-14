@@ -1,0 +1,226 @@
+/* Reset */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Variables */
+:root {
+    --headerBg: #46c533;
+    --darkHover: #176b00;
+    --lightHover: #62ff5e;
+    --borderRadius: 10px
+}
+
+/* Utilities */
+.text-center {
+    text-align: center;
+}
+
+.w-10p {
+    width: 10%;
+}
+
+.w-15p {
+    width: 15%;
+}
+
+.w-20p {
+    width: 20%;
+}
+
+.w-25p {
+    width: 25%;
+}
+
+.w-30p {
+    width: 30%;
+}
+
+.w-40p {
+    width: 40%;
+}
+
+.w-60p {
+    width: 60%;
+}
+
+/* Style */
+body {
+    font-family: sans-serif;
+}
+
+.header {
+    width: 100%;
+
+    background: var(--headerBg);
+    color: whitesmoke;
+    box-shadow: 0 0 10px #333;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.header__title {
+    padding: 0.5em;
+}
+
+.header__nav {
+    padding: 2rem;
+    background-color: var(--darkHover);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+.header a {
+    padding: 1em;
+    border-radius: var(--borderRadius);
+
+    transition-property: background-color, color, border;
+    transition-duration: 0.3s;
+}
+
+.header a:any-link {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.header a:hover, .header a:active, .header a:focus {
+    background-color: var(--headerBg);
+    color: whitesmoke;
+}
+
+.header__browse p {
+    display: none;
+}
+
+.header__links {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 0.6rem;
+}
+
+a.auth__link {
+    border: 2px solid var(--headerBg);
+    background-color: #000;
+    font-weight: bold;
+}
+
+a.auth__link:hover {
+    border: 2px solid black;
+    background-color: var(--lightHover);
+    color: #333;
+}
+
+.main {
+    width: 75%;
+    margin: 1rem auto;
+}
+
+.main__group {
+    margin-top: 1.5rem
+}
+
+.list__item {
+    display: block;
+    margin-top: 0.5em;
+    padding: 0.8em;
+
+    border: 1px solid var(--darkHover);
+    border-radius: var(--borderRadius);
+
+    transition-property: background-color;
+    transition-duration: 0.3s;
+}
+
+a.list__item:any-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+a.list__item:hover, a.list__item:active {
+    background-color: var(--lightHover);
+}
+
+.match__item,
+.comp__item,
+.team__item,
+.player__item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button__more {
+    margin-top: 1em;
+    padding: 0.5em;
+    /* background-color: transparent; */
+    border: none;
+    border-radius: var(--borderRadius);
+
+    transition-property: background-color, color;
+    transition-duration: 0.3s;
+}
+
+.button__more:hover {
+    background-color: var(--darkHover);
+    color: whitesmoke;
+}
+
+.footer {
+    background-color: #000;
+    color: whitesmoke;
+    padding: 1em;
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        font-size: 0.7rem;
+    }
+
+    .header__nav {
+        font-size: 0.8rem;
+        padding: 1.5em;
+    }
+
+    .header__browse {
+        flex-grow: 1;
+    }
+
+    .header__browse p {
+        display: block;
+    }
+
+    .header__links {
+        display: none;
+        margin-top: 1em;
+        /* display: flex; */
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .header a {
+        padding: 0.7em;
+    }
+
+    .main {
+        width: 90%;
+    }
+}
+
+/* Tablets/Laptops */
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+    .main {
+        width: 85%;
+    }
+}

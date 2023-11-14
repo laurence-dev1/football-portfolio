@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
+
+Route::get('/search/{search?}', [\App\Http\Controllers\Service\FootballApi\SearchController::class, 'index'])
+    ->whereIn('search', ['team', 'match', 'competition', 'person']);

@@ -76,13 +76,7 @@ class FootballApi
      */
     public function getMatches(array $matchFilter = []): FootballApi
     {
-        $this->apiEndpoint .= '/matches';
-        if (empty($matchFilter) === false) {
-            $this->apiEndpoint .= '?' . http_build_query($matchFilter);
-        }
-
-        var_dump($this->apiEndpoint);
-
+        $this->apiEndpoint .= '/matches?' . http_build_query($matchFilter);
         return $this;
     }
 
