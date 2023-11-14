@@ -185,4 +185,10 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'apis' => [
+        'footballapi' => [
+            'url' => env('FOOTBALL_API_URL'),
+            'key' => env('FOOTBALL_API_KEY')
+        ]
+    ]
 ];
