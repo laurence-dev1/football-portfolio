@@ -31,10 +31,10 @@ export default defineComponent({
             <section class="header__browse">
                 <p @click="toggleNav">Browse</p>
                 <ul class="header__links" ref="links">
-                    <li><Link href="/search/match">Matches</Link></li>
-                    <li><Link href="/search/competition">Competitions</Link></li>
-                    <li><Link href="/search/team">Teams</Link></li>
-                    <li><Link href="/search/person">Person</Link></li>
+                    <li><Link href="/search/matches">Matches</Link></li>
+                    <li><Link href="/search/competitions">Competitions</Link></li>
+                    <li><Link href="/search/teams">Teams</Link></li>
+                    <li><Link href="/search/persons">Person</Link></li>
                     <!--<li><Link class="auth__link" href="/login">Login</Link></li>-->
                 </ul>
             </section>
@@ -47,7 +47,7 @@ export default defineComponent({
     </main>
 
     <footer class="footer text-center">
-        <p>For Portfolio Purposes - Laurence Suarez</p>
+        <p>For Portfolio Purposes - Laurence Suarez | Credit - All Data from www.football-data.org (Free)</p>
     </footer>
 </template>
 

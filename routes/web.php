@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Service\FootballApi\MatchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
 
 Route::get('/search/{search?}', [\App\Http\Controllers\Service\FootballApi\SearchController::class, 'index'])
-    ->whereIn('search', ['team', 'match', 'competition', 'person']);
+    ->whereIn('search', ['teams', 'matches', 'competitions', 'persons']);
+
+Route::get('/match/{id}', [MatchController::class, 'index']);
+Route::get('/matches', [MatchController::class, 'search']);

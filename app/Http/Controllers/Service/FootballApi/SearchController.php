@@ -14,10 +14,9 @@ class SearchController extends Controller
      * @param string|null $search
      * @return Response
      */
-    public function index(?string $search = 'person')
+    public function index(?string $search = 'persons')
     {
-        return Inertia::render('Search', [
-            'type'        => $search,
+        return Inertia::render('Search/' . ucwords($search), [
             'initialList' => $this->requestInitialList($search)
         ]);
     }
@@ -30,22 +29,29 @@ class SearchController extends Controller
     {
         $apiClient = new FootballApi();
 
-        if ($type === 'person') {
+        if ($type === 'persons') {
             // api only allows request to particular person
             return $apiClient->getPersonById(44)->request();
         }
 
-        if ($type === 'match') {
-            return $apiClient->getMatches([
-                    'dateFrom' => (new \DateTime('-9 days'))->format('Y-m-d'),
-                    'dateTo'   => (new \DateTime())->format('Y-m-d')
+        if ($type === 'matches') {
+            $response = $apiClient->getMatches([
+                    'dateFrom' => (new \DateTime('-3 days'))->format('Y-m-d'),
+                    'dateTo'   => (new \DateTime())->format('Y-m-d'),
                 ])->request();
+
+            return $this->cutData($response, 'matches');
         }
 
-        if ($type === 'team') {
+        if ($type === 'teams') {
             return $apiClient->getTeams()->request();
         }
 
         return $apiClient->getCompetition()->request();
+    }
+
+    private function cutData($data, $key)
+    {
+        return array_slice($data[$key], 0, 3);
     }
 }
