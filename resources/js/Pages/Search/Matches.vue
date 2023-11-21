@@ -1,20 +1,32 @@
 <script>
 import { defineComponent } from 'vue'
 import { Head, Link } from "@inertiajs/vue3";
+import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 import axios from "axios";
+import CompetitionSelect from "@/Shared/SearchFilters/CompetitionSelect.vue";
+import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
 
 export default defineComponent({
     name: "SearchMatches",
-    components: { Head, Link },
+    components: { CompetitionSelect, Head, Link, LoadingIcon, MatchItem },
     props: { initialList: Array },
 
     data() {
         return {
             filters: {
                 dateFrom: '',
-                dateTo: ''
+                dateTo: '',
+                competitions: []
             },
+            showCompFilters: false,
+            isSearching: false,
             searchResults: []
+        }
+    },
+
+    computed: {
+        compFilterCnt() {
+            return this.filters.competitions.length;
         }
     },
 
@@ -40,19 +52,14 @@ export default defineComponent({
             return true;
         },
 
-        formatDate(rawDate) {
-            let date = new Date(rawDate);
-            let values = [date.getMonth(), date.getDate(), date.getFullYear()]
-
-            return values.join(' / ');
-        },
 
         searchMatch() {
+            this.isSearching = true;
             axios.get('/matches?' + new URLSearchParams(this.filters).toString())
                 .then(response => response.data)
                 .then(response => {
                     if (response.matches.length === 0) {
-                        alert('No match found with the filter, try again');
+                        alert('No match found with the filter, try other.');
                         return;
                     }
 
@@ -67,6 +74,7 @@ export default defineComponent({
 
                     alert(messages.join("\n"))
                 })
+                .finally(() => this.isSearching = false);
         }
     }
 })
@@ -77,42 +85,17 @@ export default defineComponent({
         <title>Search Matches</title>
     </Head>
 
-    <h2>Search Matches</h2>
-    <p class="main__p">* API Features only allow filters, and date filter only allow 10-day difference.</p>
+    <h2>Filter Matches</h2>
+    <p class="main__p">* API Features does not allow search (only filters), and date filter only allow 10-day difference.</p>
 
     <section class="main__group">
         <h4>Recent Matches (Last 3 Days)</h4>
     </section>
 
     <div v-if="initialList.length > 0">
-        <Link v-for="item in initialList"
-              :href="'/match/' + item.id"
-              class="list__item match__item">
-
-            <div class="match__data w-25p">
-                <img class="club__crest"
-                     :src="item.homeTeam.crest"
-                     :alt="item.homeTeam.name"
-                     :title="item.homeTeam.name">
-
-                <span>vs</span>
-
-                <img class="club__crest"
-                     :src="item.awayTeam.crest"
-                     :alt="item.awayTeam.name"
-                     :title="item.awayTeam.name">
-            </div>
-            <div class="match__data w-15p text-center">{{ item.score.fullTime.away }} - {{ item.score.fullTime.home }}</div>
-            <div class="match__data w-20p text-center">
-                <img class="competition__emblem"
-                    :src="item.competition.emblem"
-                    :alt="item.competition.name"
-                    :title="item.competition.name">
-            </div>
-            <div class="match__data w-40p text-center">
-                {{ item.status + ' | ' + formatDate(item.utcDate) }}
-            </div>
-        </Link>
+        <template v-for="match in initialList">
+            <MatchItem :matchData="match" />
+        </template>
     </div>
     <div v-else class="list__item">
         <p>No matches found.</p>
@@ -120,7 +103,8 @@ export default defineComponent({
 
     <hr>
 
-    <h4>Filter Matches</h4>
+    <h2>Filters</h2>
+    <p class="main__p">* If date filters are not set, 1-week difference are applied by default.</p>
     <section class="section__filters">
         <div class="filter__item">
             <label for="dateFrom">From:</label>
@@ -131,46 +115,32 @@ export default defineComponent({
             <label for="dateTo">To:</label>
             <input type="date" id="dateTo" v-model="filters.dateTo" @change="validateDates">
         </div>
-        <button class="btn btn_unique" @click="searchMatch">Filter</button>
+
+        <button class="btn btn_common"
+                @click="showCompFilters = !showCompFilters">
+            Filter Competition ({{ compFilterCnt }})
+        </button>
+        <button class="btn btn_submit" @click="searchMatch" :disabled="isSearching">Filter</button>
+
     </section>
 
+    <CompetitionSelect v-model:selectedBag="filters.competitions" v-show="showCompFilters" />
+
     <section>
-        <div v-show="searchResults.length > 0">
-            <Link v-for="item in searchResults"
-                  :href="'/match/' + item.id"
-                  class="list__item match__item">
-
-                <div class="match__data w-25p">
-                    <img class="club__crest"
-                         :src="item.homeTeam.crest"
-                         :alt="item.homeTeam.name"
-                         :title="item.homeTeam.name">
-
-                    <span>vs</span>
-
-                    <img class="club__crest"
-                         :src="item.awayTeam.crest"
-                         :alt="item.awayTeam.name"
-                         :title="item.awayTeam.name">
-                </div>
-                <div class="match__data w-15p text-center">{{ item.score.fullTime.home }} - {{ item.score.fullTime.away }}</div>
-                <div class="match__data w-20p text-center">
-                    <img class="competition__emblem"
-                         :src="item.competition.emblem"
-                         :alt="item.competition.name"
-                         :title="item.competition.name">
-                </div>
-                <div class="match__data w-40p text-center">
-                    {{ item.status + ' | ' + formatDate(item.utcDate) }}
-                </div>
-            </Link>
+        <LoadingIcon width="40" height="40" v-show="isSearching" />
+        <div v-if="searchResults.length > 0">
+            <template v-for="match in searchResults">
+                <MatchItem :matchData="match" />
+            </template>
+        </div>
+        <div v-else class="list__item">
+            <p>Try searching for matches using the filters above.</p>
         </div>
     </section>
 
 </template>
 
 <style scoped>
-    /* common */
     .main__p {
         font-size: 0.8rem;
         margin-top: 0.2em;
@@ -181,6 +151,11 @@ export default defineComponent({
         margin-top: 1em;
         display: flex;
         gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .section__filters button {
+        padding: 0.8em;
     }
 
     .filter__item {
@@ -195,20 +170,5 @@ export default defineComponent({
         padding: 0.8em;
         font-size: inherit;
     }
-
-    .match__data .club__crest {
-        width: 50px;
-    }
-
-    .match__data .competition__emblem {
-        width: 70px;
-    }
-
-    .match__data{
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-
 
 </style>

@@ -20,6 +20,10 @@ img {
 }
 
 /* Utilities */
+.dn {
+    display: none !important;
+}
+
 .text-center {
     text-align: center;
 }
@@ -52,19 +56,30 @@ img {
     width: 60%;
 }
 
-.btn_unique {
+.btn {
     padding: 0 1em;
-    color: white;
-    border: 2px solid var(--headerBg);
     border-radius: var(--borderRadius);
-    background-color: #000;
     font-weight: bold;
+    border: 2px solid var(--headerBg);
 }
 
-.btn_unique:hover {
+.btn_submit {
+    color: white;
+    background-color: #000;
+}
+
+.btn_submit:hover {
     border: 2px solid black;
     background-color: var(--lightHover);
     color: #333;
+}
+
+.btn_common {
+    background-color: var(--lightHover);
+}
+
+.btn_common:hover {
+    background-color: var(--headerBg);
 }
 
 /* Style */
@@ -84,6 +99,9 @@ hr {
     box-shadow: 0 0 10px #333;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+
+    position: absolute;
+    top: 0;
 }
 
 .header__title {
@@ -144,7 +162,7 @@ a.auth__link:hover {
 
 .main {
     width: 75%;
-    margin: 1rem auto;
+    margin: 8rem auto 4rem auto;
 }
 
 .main__group {
@@ -198,6 +216,9 @@ a.list__item:hover, a.list__item:active {
 }
 
 .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     background-color: #000;
     color: whitesmoke;
     padding: 1em;
@@ -238,8 +259,9 @@ a.list__item:hover, a.list__item:active {
     }
 }
 
-@media screen and (min-width: 581px) and (max-width: 1024px) {
+@media screen and (min-width: 581px) {
     .main {
         width: 85%;
+        margin-top: 11rem;
     }
 }

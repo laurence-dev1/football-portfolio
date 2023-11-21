@@ -1,0 +1,97 @@
+<script>
+import {defineComponent} from 'vue'
+
+export default defineComponent({
+    name: "CompetitionSelect",
+    props: {
+        selectedBag: {
+            required: true,
+            type: Array
+        }
+    },
+    data() {
+        return {
+            competitions: [
+                { id: 2014, code: 'PD', caption: 'La Liga'},
+                { id: 2021, code: 'PL', caption: 'Premier League' },
+                { id: 2002, code: 'BL1', caption: 'Bundesliga' },
+                { id: 2019, code: 'SA', caption: 'Serie A' },
+                { id: 2015, code: 'FL1', caption: 'Ligue 1' },
+                { id: 2001, code: 'CL', caption: 'UEFA Champion\'s League' },
+                { id: 2000, code: 'WC', caption: 'FIFA World Cup' }
+            ]
+        }
+    },
+
+    methods: {
+        add(event) {
+            let bag = this.selectedBag;
+            let selectedVal = event.target.value;
+
+            bag.push(selectedVal);
+            if (bag.indexOf(selectedVal) > -1 && event.target.checked === false) {
+                bag = bag.filter(comp => comp !== selectedVal);
+            }
+
+            this.$emit('update:selectedBag', bag);
+        }
+    }
+})
+</script>
+
+<template>
+    <div>
+        <h4 class="title">Filter Competition</h4>
+        <div class="comp__filter">
+            <div v-for="comp in competitions">
+                <input
+                    type="checkbox"
+                    name="compFilter"
+                    :id="`compFilter${comp.code}`"
+                    :value="comp.id"
+                    @change="add" >
+                <label
+                    class="comp__label"
+                    :for="`compFilter${comp.code}`">
+                    {{ comp.caption }}
+                </label>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+    .title {
+        margin-top: 1em;
+    }
+
+    .comp__filter {
+        margin-top: 0.5em;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .comp__filter div {
+        display: flex;
+        gap: 0.5em;
+    }
+
+    input[type=checkbox] {
+        display: none;
+    }
+
+    input[name=compFilter] + label {
+        padding: 0.8em;
+        font-weight: bold;
+        border: 2px solid var(--headerBg);
+        border-radius: var(--borderRadius);
+
+        transition-property: background-color;
+        transition-duration: 0.3s;
+    }
+
+    input[name=compFilter]:checked + label {
+        background-color: var(--lightHover);
+    }
+</style>

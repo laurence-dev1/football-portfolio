@@ -26,7 +26,7 @@ export default defineComponent({
         <h1 class="header__title text-center">🏃‍♂️ Football Portfolio ⚽</h1>
         <nav class="header__nav">
             <section class="header__dashboard">
-                <a href="/">Dashboard</a>
+                <Link href="/">Dashboard</Link>
             </section>
             <section class="header__browse">
                 <p @click="toggleNav">Browse</p>
