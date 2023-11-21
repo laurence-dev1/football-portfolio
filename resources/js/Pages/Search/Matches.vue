@@ -86,7 +86,7 @@ export default defineComponent({
     </Head>
 
     <h2>Filter Matches</h2>
-    <p class="main__p">* API Features does not allow search (only filters), and date filter only allow 10-day difference.</p>
+    <p class="main__p">API Features does not allow search (only filters), and date filter only allow 10-day difference.</p>
 
     <section class="main__group">
         <h4>Recent Matches (Last 3 Days)</h4>
@@ -104,7 +104,7 @@ export default defineComponent({
     <hr>
 
     <h2>Filters</h2>
-    <p class="main__p">* If date filters are not set, 1-week difference are applied by default.</p>
+    <p class="main__p">If date filters are not set, 1-week difference are applied by default.</p>
     <section class="section__filters">
         <div class="filter__item">
             <label for="dateFrom">From:</label>
@@ -112,7 +112,7 @@ export default defineComponent({
         </div>
 
         <div class="filter__item">
-            <label for="dateTo">To:</label>
+            <label for="dateTo">Up To:</label>
             <input type="date" id="dateTo" v-model="filters.dateTo" @change="validateDates">
         </div>
 
@@ -120,7 +120,9 @@ export default defineComponent({
                 @click="showCompFilters = !showCompFilters">
             Filter Competition ({{ compFilterCnt }})
         </button>
-        <button class="btn btn_submit" @click="searchMatch" :disabled="isSearching">Filter</button>
+        <button class="btn btn_common" @click="searchMatch" :disabled="isSearching">
+            {{ isSearching === true ? 'Loading...' : 'Filter' }}
+        </button>
 
     </section>
 
@@ -144,7 +146,6 @@ export default defineComponent({
     .main__p {
         font-size: 0.8rem;
         margin-top: 0.2em;
-        font-style: italic;
     }
 
     .section__filters {
@@ -158,6 +159,11 @@ export default defineComponent({
         padding: 0.8em;
     }
 
+    .section__filters button:disabled {
+        background-color: var(--btn-disable-bg);
+        cursor: not-allowed;
+    }
+
     .filter__item {
         display: flex;
         align-items: center;
@@ -165,8 +171,9 @@ export default defineComponent({
     }
 
     .section__filters input[type=date] {
-        border: 2px solid var(--darkHover);
-        border-radius: var(--borderRadius);
+        border: 1px solid var(--border-bg);
+        border-radius: var(--border-radius);
+        background-color: var(--primary-bg);
         padding: 0.8em;
         font-size: inherit;
     }

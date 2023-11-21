@@ -1,6 +1,6 @@
 <script>
 import {defineComponent} from 'vue'
-import {Link} from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 
 export default defineComponent({
     name: "MatchItem",
@@ -15,7 +15,7 @@ export default defineComponent({
     methods: {
         formatDate(rawDate) {
             let date = new Date(rawDate);
-            let values = [date.getMonth(), date.getDate(), date.getFullYear()]
+            let values = [date.getMonth() + 1, date.getDate(), date.getFullYear()]
 
             return values.join(' / ');
         },

@@ -23,7 +23,7 @@ export default defineComponent({
 <template>
 
     <header class="header">
-        <h1 class="header__title text-center">🏃‍♂️ Football Portfolio ⚽</h1>
+        <h2 class="header__title text-center">🏃‍♂️ Football Portfolio ⚽</h2>
         <nav class="header__nav">
             <section class="header__dashboard">
                 <Link href="/">Dashboard</Link>

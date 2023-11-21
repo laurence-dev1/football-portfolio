@@ -41,7 +41,7 @@ export default defineComponent({
 
 <template>
     <div>
-        <h4 class="title">Filter Competition</h4>
+        <h4 class="title">Select Competitions</h4>
         <div class="comp__filter">
             <div v-for="comp in competitions">
                 <input
@@ -82,16 +82,18 @@ export default defineComponent({
     }
 
     input[name=compFilter] + label {
-        padding: 0.8em;
+        padding: 0.5em;
         font-weight: bold;
-        border: 2px solid var(--headerBg);
-        border-radius: var(--borderRadius);
+        border: 1px solid var(--border-bg);
+        border-radius: var(--border-radius);
+        background-color: var(--primary-bg);
 
         transition-property: background-color;
-        transition-duration: 0.3s;
+        transition-duration: 0.1s;
     }
 
     input[name=compFilter]:checked + label {
-        background-color: var(--lightHover);
+        background-color: var(--btn-bg);
+        color: var(--btn-text-color);
     }
 </style>
