@@ -16,7 +16,7 @@ class SearchController extends Controller
      */
     public function index(?string $search = 'persons')
     {
-        return Inertia::render('Search/' . ucwords($search), [
+        return Inertia::render('Search/Search' . ucwords($search), [
             'initialList' => $this->requestInitialList($search)
         ]);
     }
