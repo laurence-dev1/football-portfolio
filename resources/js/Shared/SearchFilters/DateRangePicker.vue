@@ -29,7 +29,7 @@ export default defineComponent({
                     this[target.id + 'Select'] = '';
 
                 } else if (new Date(dateTo.getTime() - dateFrom.getTime()).getUTCDate() > 10) {
-                    alert('Date difference should be less than or equal to 10');
+                    alert('Date difference should be less than or equal to 10 days.');
                     this[target.id + 'Select'] = '';
                 }
             }

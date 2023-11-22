@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Filters;
 
+use App\Rules\Filters\DateRangeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FilterMatchRequest extends FormRequest
@@ -22,9 +23,17 @@ class FilterMatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dateFrom'     => 'nullable|date',
-            'dateTo'       => 'nullable|date|after_or_equal:dateFrom',
-            'competitions' => 'nullable|'
+            'dateFrom'     => [
+                'nullable',
+                'date'
+            ],
+            'dateTo'       => [
+                'nullable',
+                'date',
+                'after_or_equal:dateFrom',
+                new DateRangeRule
+            ],
+            'competitions' => 'nullable'
         ];
     }
 }
