@@ -41,8 +41,8 @@ export default defineComponent({
 
 <template>
     <div>
-        <h4 class="title">Select Competitions</h4>
-        <div class="comp__filter">
+        <fieldset class="comp__filter">
+            <legend>Select Competitions</legend>
             <div v-for="comp in competitions">
                 <input
                     type="checkbox"
@@ -56,17 +56,23 @@ export default defineComponent({
                     {{ comp.caption }}
                 </label>
             </div>
-        </div>
+        </fieldset>
     </div>
 </template>
 
 <style scoped>
-    .title {
-        margin-top: 1em;
+    fieldset {
+        padding: 1em;
+        border: 1px solid var(--border-bg);
+        border-radius: var(--border-radius);
+    }
+
+    fieldset legend {
+        font-weight: bolder;
     }
 
     .comp__filter {
-        margin-top: 0.5em;
+        margin-top: 1em;
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;

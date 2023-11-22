@@ -1,14 +1,15 @@
 <script>
 import { defineComponent } from 'vue'
 import { Head, Link } from "@inertiajs/vue3";
-import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 import axios from "axios";
 import CompetitionSelect from "@/Shared/SearchFilters/CompetitionSelect.vue";
+import DateRangePicker from "@/Shared/SearchFilters/DateRangePicker.vue";
 import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 
 export default defineComponent({
     name: "SearchMatches",
-    components: { CompetitionSelect, Head, Link, LoadingIcon, MatchItem },
+    components: { CompetitionSelect, DateRangePicker, Head, Link, LoadingIcon, MatchItem },
     props: { initialList: Array },
 
     data() {
@@ -31,28 +32,6 @@ export default defineComponent({
     },
 
     methods: {
-        validateDates() {
-            if (this.filters.dateFrom === '' || this.filters.dateTo === '') {
-                return null;
-            }
-
-            let dateFrom = new Date(this.filters.dateFrom);
-            let dateTo = new Date(this.filters.dateTo);
-
-            if (dateFrom > dateTo) {
-                alert('"From Date" should be less than "To Date"');
-                return false;
-            }
-
-            if (new Date(dateTo.getTime() - dateFrom.getTime()).getUTCDate() > 10) {
-                alert('Date difference should be less than or equal to 10');
-                return false;
-            }
-
-            return true;
-        },
-
-
         searchMatch() {
             this.isSearching = true;
             axios.get('/matches?' + new URLSearchParams(this.filters).toString())
@@ -106,15 +85,7 @@ export default defineComponent({
     <h2>Filters</h2>
     <p class="main__p">If date filters are not set, 1-week difference are applied by default.</p>
     <section class="section__filters">
-        <div class="filter__item">
-            <label for="dateFrom">From:</label>
-            <input type="date" id="dateFrom" v-model="filters.dateFrom" @change="validateDates">
-        </div>
-
-        <div class="filter__item">
-            <label for="dateTo">Up To:</label>
-            <input type="date" id="dateTo" v-model="filters.dateTo" @change="validateDates">
-        </div>
+        <DateRangePicker v-model:dateFrom="filters.dateFrom" v-model:dateTo="filters.dateTo" />
 
         <button class="btn btn_common"
                 @click="showCompFilters = !showCompFilters">
@@ -149,7 +120,7 @@ export default defineComponent({
     }
 
     .section__filters {
-        margin-top: 1em;
+        margin-top: 1.5em;
         display: flex;
         gap: 1rem;
         flex-wrap: wrap;
@@ -162,20 +133,6 @@ export default defineComponent({
     .section__filters button:disabled {
         background-color: var(--btn-disable-bg);
         cursor: not-allowed;
-    }
-
-    .filter__item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .section__filters input[type=date] {
-        border: 1px solid var(--border-bg);
-        border-radius: var(--border-radius);
-        background-color: var(--primary-bg);
-        padding: 0.8em;
-        font-size: inherit;
     }
 
 </style>

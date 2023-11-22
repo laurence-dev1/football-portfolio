@@ -13,7 +13,7 @@ img {
 
 /* Variables */
 :root {
-    --body-bg: #EBF2FA;
+    --body-bg: whitesmoke;
     --header-bg: #071013;
     --second-header-bg: #333333;
     --primary-bg: #E2E7E4;
@@ -214,6 +214,15 @@ a.list__item:hover, a.list__item:active {
 .button__more:hover {
     background-color: var(--second-header-bg);
     color: var(--btn-text-color);
+}
+
+/* Filter Sections */
+.filter__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    position: relative;
 }
 
 .footer {
