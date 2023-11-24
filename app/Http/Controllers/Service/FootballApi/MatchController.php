@@ -4,30 +4,35 @@ namespace App\Http\Controllers\Service\FootballApi;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Filters\FilterMatchRequest;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class MatchController extends Controller
 {
 
     /**
      * index
-     * @param int $matchId
-     * @return mixed
+     * @param int|string $matchId
+     * @return Response
      */
-    public function index(int $matchId)
+    public function index(int|string $matchId) : Response
     {
-        return $this->footballApiClient
-            ->getMatchById($matchId)
-            ->request();
+        return Inertia::render('Details/MatchDetails', [
+            'matchDetails' => $this->footballApiClient
+                ->getMatchById($matchId)
+                ->request()
+        ]);
     }
 
     /**
      * search
      * @param FilterMatchRequest $filters
      * @return JsonResponse
-     * @throws \Exception
+     * @throws Exception
      */
-    public function search(FilterMatchRequest $filters): JsonResponse
+    public function search(FilterMatchRequest $filters) : JsonResponse
     {
         // 7-day differences are added by default if dates are null
         if ($filters['dateFrom'] === null && $filters['dateTo'] === null) {

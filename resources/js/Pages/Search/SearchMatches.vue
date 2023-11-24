@@ -65,7 +65,7 @@ export default defineComponent({
     </Head>
 
     <h2>Filter Matches</h2>
-    <p class="main__p">API Features does not allow search (only filters), and date filter only allow 10-day difference.</p>
+    <p class="text_info">API Features does not allow search (only filters), and date filter only allow 10-day difference.</p>
 
     <section class="main__group">
         <h4>Recent Matches (Last 3 Days)</h4>
@@ -83,7 +83,7 @@ export default defineComponent({
     <hr>
 
     <h2>Filters</h2>
-    <p class="main__p">If date filters are not set, 1-week difference are applied by default.</p>
+    <p class="text_info">If date filters are not set, 1-week difference are applied by default.</p>
     <section class="section__filters">
         <DateRangePicker v-model:dateFrom="filters.dateFrom" v-model:dateTo="filters.dateTo" />
 
@@ -114,11 +114,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-    .main__p {
-        font-size: 0.8rem;
-        margin-top: 0.2em;
-    }
-
     .section__filters {
         margin-top: 1.5em;
         display: flex;

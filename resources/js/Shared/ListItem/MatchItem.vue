@@ -1,24 +1,21 @@
 <script>
 import {defineComponent} from 'vue'
 import { Link } from "@inertiajs/vue3";
+import date from "../../mixins/date.js";
 
 export default defineComponent({
     name: "MatchItem",
+    computed: {
+        date() {
+            return date
+        }
+    },
     components: { Link },
     props: {
         matchData: {
             required: true,
             type: Object
         }
-    },
-
-    methods: {
-        formatDate(rawDate) {
-            let date = new Date(rawDate);
-            let values = [date.getMonth() + 1, date.getDate(), date.getFullYear()]
-
-            return values.join(' / ');
-        },
     }
 })
 </script>
@@ -49,7 +46,7 @@ export default defineComponent({
                  :title="matchData.competition.name">
         </div>
         <div class="match__data w-35p text-center">
-            {{ matchData.status + ' | ' + formatDate(matchData.utcDate) }}
+            {{ matchData.status + ' | ' + date.formatUtcDate(matchData.utcDate) }}
         </div>
     </Link>
 </template>

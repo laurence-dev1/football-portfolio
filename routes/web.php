@@ -19,5 +19,5 @@ Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
 Route::get('/search/{search?}', [\App\Http\Controllers\Service\FootballApi\SearchController::class, 'index'])
     ->whereIn('search', ['teams', 'matches', 'competitions', 'persons']);
 
-Route::get('/match/{id}', [MatchController::class, 'index']);
+Route::get('/match/{matchId}', [MatchController::class, 'index'])->whereNumber('matchId');
 Route::get('/matches', [MatchController::class, 'search']);

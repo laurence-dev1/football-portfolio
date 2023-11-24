@@ -55,3 +55,16 @@
     background-color: var(--btn-hover-bg);
     color: var(--btn-text-color);
 }
+
+p.text_info {
+    font-size: 0.8rem;
+    margin-top: 0.2em;
+}
+
+.card {
+    border: 2px solid var(--border-bg);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 15px 4px #d5d5d5;
+
+    padding: 1em;
+}
