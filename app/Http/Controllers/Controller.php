@@ -10,14 +10,4 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-
-    /**
-     * @var FootballApi $footballApiClient
-     */
-    protected FootballApi $footballApiClient;
-
-    public function __construct()
-    {
-        $this->footballApiClient = new FootballApi();
-    }
 }

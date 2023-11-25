@@ -26,7 +26,12 @@ export default defineComponent({
     methods: {
         add() {
             let selectedCompetitions = this.competitions.filter(competition => competition.checked === true);
-            this.$emit('update:selectedBag', selectedCompetitions.map(competitions => competitions.id))
+            this.$emit('update:selectedBag', selectedCompetitions.map(competition => competition.id))
+        },
+
+        clear() {
+            this.competitions.map(competition => competition.checked = false);
+            this.$emit('update:selectedBag', [])
         }
     },
 
@@ -56,6 +61,7 @@ export default defineComponent({
                     {{ comp.caption }}
                 </label>
             </div>
+            <button class="btn btn_common" @click="clear">Clear</button>
         </fieldset>
     </div>
 </template>

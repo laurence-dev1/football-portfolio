@@ -21,7 +21,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <Link :href="'/match/' + matchData.id"
+    <Link :href="'/matches/' + matchData.id"
           class="list__item match__item" preserve-scroll>
 
         <div class="match__data w-35p">
