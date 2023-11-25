@@ -12,7 +12,7 @@ export default defineComponent({
 
     data() {
         return {
-            showScore: 'half'
+            showScore: 'full'
         }
     },
 
@@ -32,12 +32,12 @@ export default defineComponent({
         <h5>Scores</h5>
         <div class="score_toggle">
             <div>
-                <input type="radio" id="half_time_radio" name="time_score" checked value="half" v-model="showScore">
+                <input type="radio" id="half_time_radio" name="time_score" value="half" v-model="showScore">
                 <label for="half_time_radio">Half Time</label>
             </div>
 
             <div>
-                <input type="radio" id="half_full_radio" name="time_score" value="full" v-model="showScore">
+                <input type="radio" id="half_full_radio" name="time_score" checked value="full" v-model="showScore">
                 <label for="half_full_radio">Full Time</label>
             </div>
         </div>
@@ -51,6 +51,11 @@ export default defineComponent({
             </span>
             <img :src="matchDetails.awayTeam.crest" alt="">
         </div>
+
+        <hr>
+
+        <h5>Stats Table</h5>
+
     </div>
 </template>
 
@@ -70,7 +75,7 @@ export default defineComponent({
     }
 
     .score_toggle {
-        margin: 1em 0;
+        margin: 1em 0 2em 0;
         display: flex;
         gap: 1rem;
     }
@@ -86,26 +91,6 @@ export default defineComponent({
     .score {
         font-weight: bold;
         font-size: 2rem;
-    }
-
-    input[type=radio] {
-        display: none;
-    }
-
-    input[name=time_score] + label {
-        padding: 0.5em;
-        font-weight: bold;
-        border: 1px solid var(--border-bg);
-        border-radius: var(--border-radius);
-        background-color: var(--primary-bg);
-
-        transition-property: background-color;
-        transition-duration: 0.2s;
-    }
-
-    input[name=time_score]:checked + label {
-        background-color: var(--btn-bg);
-        color: var(--btn-text-color);
     }
 
     @media screen and (max-width: 580px) {

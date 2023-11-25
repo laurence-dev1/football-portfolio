@@ -1,15 +1,7 @@
 @import "reset.css";
 @import "variables.css";
 @import "utilities.css";
-
-body {
-    background-color: var(--body-bg);
-    font-family: sans-serif;
-}
-
-hr {
-    margin: 1rem 0;
-}
+@import "common.css";
 
 .header {
     width: 100%;
@@ -152,6 +144,8 @@ a.list__item:hover, a.list__item:active {
     background-color: #000;
     color: var(--btn-text-color);
     padding: 1em;
+
+    clear: both;
 }
 
 @media screen and (max-width: 580px) {
@@ -186,6 +180,7 @@ a.list__item:hover, a.list__item:active {
 
     .main {
         width: 90%;
+        margin-bottom: 6rem;
     }
 }
 
@@ -193,5 +188,6 @@ a.list__item:hover, a.list__item:active {
     .main {
         width: 85%;
         margin-top: 8rem;
+        margin-bottom: 6rem;
     }
 }

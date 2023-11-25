@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, useRemember } from "@inertiajs/vue3";
 import axios from "axios";
 import CompetitionSelect from "@/Shared/SearchFilters/CompetitionSelect.vue";
 import DateRangePicker from "@/Shared/SearchFilters/DateRangePicker.vue";
@@ -15,13 +15,13 @@ export default defineComponent({
     data() {
         return {
             filters: {
-                dateFrom: '',
-                dateTo: '',
-                competitions: []
+                dateFrom: useRemember('', 'DateFrom'),
+                dateTo: useRemember('', 'DateTo'),
+                competitions: useRemember([], 'SelectedCompetitions')
             },
-            showCompFilters: false,
+            showCompFilters: useRemember(false, 'ShowCompetitionFilter'),
             isSearching: false,
-            searchResults: []
+            searchResults: useRemember([], 'SearchResults')
         }
     },
 

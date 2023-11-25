@@ -12,29 +12,28 @@ export default defineComponent({
     data() {
         return {
             competitions: [
-                { id: 2014, code: 'PD', caption: 'La Liga'},
-                { id: 2021, code: 'PL', caption: 'Premier League' },
-                { id: 2002, code: 'BL1', caption: 'Bundesliga' },
-                { id: 2019, code: 'SA', caption: 'Serie A' },
-                { id: 2015, code: 'FL1', caption: 'Ligue 1' },
-                { id: 2001, code: 'CL', caption: 'UEFA Champion\'s League' },
-                { id: 2000, code: 'WC', caption: 'FIFA World Cup' }
+                { id: 2014, code: 'PD', caption: 'La Liga', checked: false },
+                { id: 2021, code: 'PL', caption: 'Premier League', checked: false },
+                { id: 2002, code: 'BL1', caption: 'Bundesliga', checked: false },
+                { id: 2019, code: 'SA', caption: 'Serie A', checked: false },
+                { id: 2015, code: 'FL1', caption: 'Ligue 1', checked: false },
+                { id: 2001, code: 'CL', caption: 'UEFA Champion\'s League', checked: false },
+                { id: 2000, code: 'WC', caption: 'FIFA World Cup', checked: false }
             ]
         }
     },
 
     methods: {
-        add(event) {
-            let bag = this.selectedBag;
-            let selectedVal = event.target.value;
-
-            bag.push(selectedVal);
-            if (bag.indexOf(selectedVal) > -1 && event.target.checked === false) {
-                bag = bag.filter(comp => comp !== selectedVal);
-            }
-
-            this.$emit('update:selectedBag', bag);
+        add() {
+            let selectedCompetitions = this.competitions.filter(competition => competition.checked === true);
+            this.$emit('update:selectedBag', selectedCompetitions.map(competitions => competitions.id))
         }
+    },
+
+    mounted() {
+        this.competitions.map(competition => {
+            competition.checked = this.selectedBag.includes(competition.id) === true;
+        })
     }
 })
 </script>
@@ -48,8 +47,9 @@ export default defineComponent({
                     type="checkbox"
                     name="compFilter"
                     :id="`compFilter${comp.code}`"
-                    :value="comp.id"
-                    @change="add" >
+                    v-model="comp.checked"
+                    @change="add"
+                    :checked="comp.checked">
                 <label
                     class="comp__label"
                     :for="`compFilter${comp.code}`">
@@ -83,23 +83,4 @@ export default defineComponent({
         gap: 0.5em;
     }
 
-    input[type=checkbox] {
-        display: none;
-    }
-
-    input[name=compFilter] + label {
-        padding: 0.5em;
-        font-weight: bold;
-        border: 1px solid var(--border-bg);
-        border-radius: var(--border-radius);
-        background-color: var(--primary-bg);
-
-        transition-property: background-color;
-        transition-duration: 0.1s;
-    }
-
-    input[name=compFilter]:checked + label {
-        background-color: var(--btn-bg);
-        color: var(--btn-text-color);
-    }
 </style>

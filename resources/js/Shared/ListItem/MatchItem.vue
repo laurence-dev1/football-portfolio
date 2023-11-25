@@ -22,7 +22,7 @@ export default defineComponent({
 
 <template>
     <Link :href="'/match/' + matchData.id"
-          class="list__item match__item">
+          class="list__item match__item" preserve-scroll>
 
         <div class="match__data w-35p">
             <img class="club__crest"

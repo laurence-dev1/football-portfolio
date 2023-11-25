@@ -36,6 +36,16 @@ export default defineComponent({
 
             this.$emit('update:' + target.id, this[target.id + 'Select']);
         },
+    },
+
+    mounted() {
+        if (this.dateFrom !== '') {
+            this.dateFromSelect = this.dateFrom
+        }
+
+        if (this.dateTo !== '') {
+            this.dateToSelect = this.dateTo
+        }
     }
 })
 </script>

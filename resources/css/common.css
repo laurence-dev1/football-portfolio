@@ -1,0 +1,28 @@
+body {
+    background-color: var(--body-bg);
+    font-family: sans-serif;
+}
+
+hr {
+    margin: 1rem 0;
+}
+
+input[type=radio], input[type=checkbox] {
+    display: none;
+}
+
+:is(input[type=radio], input[type=checkbox]) + label {
+    padding: 0.5em;
+    font-weight: bold;
+    border: 1px solid var(--border-bg);
+    border-radius: var(--border-radius);
+    background-color: var(--primary-bg);
+
+    transition-property: background-color;
+    transition-duration: 0.3s;
+}
+
+:is(input[type=radio], input[type=checkbox]):checked + label {
+    background-color: var(--btn-bg);
+    color: var(--btn-text-color);
+}
