@@ -12,8 +12,8 @@ export default defineComponent({
     },
 
     computed: {
-        date() {
-            return date;
+        formattedDate() {
+            return date.formatUtcDate(this.matchDetails.utcDate);
         }
     }
 })
@@ -78,7 +78,7 @@ export default defineComponent({
 
         <div class="details__item">
             <h5>Date</h5>
-            {{ date.formatUtcDate(matchDetails.utcDate) }}
+            {{ formattedDate }}
         </div>
 
         <div class="details__item" v-if="matchDetails.hasOwnProperty('referees') === true && matchDetails.referees.length > 0">

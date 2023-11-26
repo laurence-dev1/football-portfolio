@@ -28,7 +28,8 @@ export default defineComponent({
     computed: {
         ...mapState(useMatchListRequestStore, {
             matchLoadingState: 'loadingState',
-            matchResponses: 'responses'
+            matchResponses: 'responses',
+            recent3Matches: 'recent3Matches'
         }),
 
         competitionFilterCount() {
@@ -48,7 +49,7 @@ export default defineComponent({
     },
 
     async mounted() {
-        await this.matchReqInitialList('matches');
+        await this.matchReqInitialList();
     }
 })
 </script>
@@ -60,26 +61,26 @@ export default defineComponent({
         </Head>
 
         <h2>Filter Matches</h2>
-        <p class="text_info">API Features does not allow search (only filters), and date filter only allow 10-day difference.</p>
+        <p class="text_info">API Features does not allow search (only filters), and date filter only allow 10-Day Difference.</p>
 
         <section class="main__group">
-            <h4>Recent Matches (Last 3 Matches, from last 3 days)</h4>
+            <h4>Recent Matches (Last 3 Matches, 3-Day Duration)</h4>
         </section>
 
-        <div v-if="matchResponses.initialList.length > 0">
-            <template v-for="match in matchResponses.initialList">
+        <div v-if="recent3Matches.length > 0">
+            <template v-for="match in recent3Matches">
                 <MatchItem :matchData="match" />
             </template>
         </div>
+        <LoadingIcon v-else-if="matchLoadingState.initialList === true" />
         <div v-else class="list__item">
-            <LoadingIcon v-if="matchLoadingState.initialList === true" />
-            <p v-else>No matches found.</p>
+            <p>No matches found.</p>
         </div>
 
         <hr>
 
         <h2>Filters</h2>
-        <p class="text_info">If date filters are not set, 1-week difference are applied by default.</p>
+        <p class="text_info">If date filters are not set, 1-Week Difference are applied by default.</p>
         <section class="section__filters">
             <DateRangePicker v-model:dateFrom="filters.dateFrom" v-model:dateTo="filters.dateTo" />
 

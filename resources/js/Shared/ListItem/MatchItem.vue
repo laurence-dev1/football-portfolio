@@ -5,16 +5,19 @@ import date from "../../mixins/date.js";
 
 export default defineComponent({
     name: "MatchItem",
-    computed: {
-        date() {
-            return date
-        }
-    },
     components: { Link },
     props: {
+        doPreserveScroll: true,
+
         matchData: {
             required: true,
             type: Object
+        }
+    },
+
+    computed: {
+        formattedDate() {
+            return date.formatUtcDate(this.matchData.utcDate);
         }
     }
 })
@@ -22,7 +25,7 @@ export default defineComponent({
 
 <template>
     <Link :href="'/matches/' + matchData.id"
-          class="list__item match__item" preserve-scroll>
+          class="list__item match__item" :preserve-scroll="doPreserveScroll">
 
         <div class="match__data w-35p">
             <img class="club__crest"
@@ -46,7 +49,7 @@ export default defineComponent({
                  :title="matchData.competition.name">
         </div>
         <div class="match__data w-35p text-center">
-            {{ matchData.status + ' | ' + date.formatUtcDate(matchData.utcDate) }}
+            {{ matchData.status + ' | ' + formattedDate }}
         </div>
     </Link>
 </template>

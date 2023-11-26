@@ -1,8 +1,10 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
+import MatchStatsTable from "@/Shared/Cards/Match/MatchStatsTable.vue";
 
 export default defineComponent({
     name: "CardMatchStats",
+    components: { MatchStatsTable },
     props: {
         matchDetails: {
             type: Object,
@@ -55,7 +57,9 @@ export default defineComponent({
         <hr>
 
         <h5>Stats Table</h5>
+        <p class="text-info">Stats below are hard-coded data, not from API (due to free tier limitations)</p>
 
+        <MatchStatsTable />
     </div>
 </template>
 
@@ -91,6 +95,10 @@ export default defineComponent({
     .score {
         font-weight: bold;
         font-size: 2rem;
+    }
+
+    .text-info {
+        color: red;
     }
 
     @media screen and (max-width: 580px) {

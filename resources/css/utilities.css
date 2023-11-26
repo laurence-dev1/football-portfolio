@@ -6,6 +6,14 @@
     text-align: center;
 }
 
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
 .w-10p {
     width: 10%;
 }

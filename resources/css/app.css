@@ -18,6 +18,15 @@
 
 .header__title {
     padding: 0.4em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1em;
+}
+
+.header__title img {
+    width: 45px;
 }
 
 .header__nav {
@@ -99,7 +108,9 @@ a.list__item:any-link {
     color: inherit;
 }
 
-a.list__item:hover, a.list__item:active {
+a.list__item:hover,
+a.list__item:active,
+a.list__item:focus {
     background-color: var(--primary-hover-bg);
 }
 

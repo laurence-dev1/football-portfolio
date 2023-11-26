@@ -1,12 +1,14 @@
 <script>
 import {defineComponent} from 'vue'
 import { Link } from "@inertiajs/vue3";
+import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
 
 export default defineComponent({
     name: "Layout",
     components: { Link },
     data() {
         return {
+            navLinks: ['Matches', 'Competitions', 'Teams', 'Persons'],
             showLinks: false
         }
     },
@@ -15,6 +17,14 @@ export default defineComponent({
         toggleNav() {
             this.showLinks = !this.showLinks;
             this.$refs.links.style.display = (this.showLinks === true) ? 'flex' : 'none';
+        },
+
+        resetLists(type) {
+            let stores = {
+                matches: useMatchListRequestStore()
+            }
+
+            stores[type].$reset();
         }
     }
 })
@@ -23,7 +33,10 @@ export default defineComponent({
 <template>
 
     <header class="header">
-        <h2 class="header__title text-center">🏃‍♂️ Football Portfolio ⚽</h2>
+        <h3 class="header__title text-center">
+            <img src="../../img/header_icon.png" alt="">
+            Football Portfolio
+        </h3>
         <nav class="header__nav">
             <section class="header__dashboard">
                 <Link href="/">Dashboard</Link>
@@ -31,10 +44,13 @@ export default defineComponent({
             <section class="header__browse">
                 <p @click="toggleNav">Browse</p>
                 <ul class="header__links" ref="links">
-                    <li><Link href="/search/matches">Matches</Link></li>
-                    <li><Link href="/search/competitions">Competitions</Link></li>
-                    <li><Link href="/search/teams">Teams</Link></li>
-                    <li><Link href="/search/persons">Person</Link></li>
+                    <li v-for="(link, index) in navLinks" :key="index">
+                        <Link
+                            :href="'/search/' + link.toLowerCase()"
+                            @click="resetLists(link.toLowerCase())">
+                            {{ link }}
+                        </Link>
+                    </li>
                     <!--<li><Link class="auth__link" href="/login">Login</Link></li>-->
                 </ul>
             </section>
@@ -47,7 +63,7 @@ export default defineComponent({
     </main>
 
     <footer class="footer text-center">
-        <p>For Portfolio Purposes - Laurence Suarez | Credit - All Data from www.football-data.org (Free)</p>
+        <p>For Portfolio Purposes - Laurence Suarez | Credit - All Data from www.football-data.org (Free Tier)</p>
     </footer>
 </template>
 

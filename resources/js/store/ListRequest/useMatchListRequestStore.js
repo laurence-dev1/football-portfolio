@@ -17,40 +17,61 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
     },
 
     getters: {
-
+        recent3Matches() {
+            return this.responses.initialList.slice(0, 3);
+        }
     },
 
     actions: {
-        async requestInitialList(type) {
-            this.loadingState.initialList = true;
-            let response = await axios.get('/' + type);
-            this.loadingState.initialList = false;
-
-            if (response.status !== 200) {
-                alert('Something went wrong, kindly refresh the page to try again.');
-                return [];
+        async requestInitialList() {
+            if (this.responses.initialList.length > 0) {
+                return;
             }
 
-            this.responses.initialList = response.data.matches;
+            this.loadingState.initialList = true;
+            try {
+                let response = await axios.get('/matches/recent/');
+                this.responses.initialList = response.data.data
+
+            } catch (error) {
+                alert('Something went wrong, kindly refresh the page to try again.');
+
+            } finally {
+                this.loadingState.initialList = false;
+            }
         },
 
         async requestFilteredLlist(filters) {
             this.loadingState.filteredList = true;
-            let response = await axios.get('/matches/filter?' + new URLSearchParams(filters).toString())
-            this.loadingState.filteredList = false;
 
-            response = response.data;
-            if (response.hasOwnProperty('errorCode') === true) {
-                alert(response.message);
-                return;
+            try {
+                let response = await axios.get('/matches/filter?' + new URLSearchParams(filters).toString())
+                let filteredList = response.data.data;
+
+                if (filteredList.length === 0) {
+                    return alert('No match found with the filter, try other.');
+                }
+
+                this.responses.filteredList = filteredList;
+
+            } catch (error) {
+                let errorBag = error.response.data;
+                if (errorBag.hasOwnProperty('errors') === true) {
+                    let errorMessages = [];
+                    for (const item in errorBag.errors) {
+                        errorMessages.push(errorBag.errors[item]);
+                    }
+
+                    alert(errorMessages.join("\n"));
+                    return;
+                }
+
+                alert('Something went wrong, kindly refresh the page before trying again.');
+
+            } finally {
+                this.loadingState.filteredList = false;
+
             }
-
-            if (response.matches.length === 0) {
-                alert('No match found with the filter, try other.');
-                return;
-            }
-
-            this.responses.filteredList = response.matches;
         }
     }
 })

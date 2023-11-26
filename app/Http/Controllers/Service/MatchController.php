@@ -21,9 +21,9 @@ class MatchController extends Controller
     /**
      * __construct()
      */
-    public function __construct()
+    public function __construct(MatchService $matchService)
     {
-        $this->matchService = new MatchService();
+        $this->matchService = $matchService;
     }
 
     /**
@@ -32,15 +32,19 @@ class MatchController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->matchService->getInitialList());
+        $data = $this->matchService->getInitialList();
+        return response()->json(
+            $data,
+            $data['status'] === true ? 200 : 400
+        );
     }
 
     /**
      * show
-     * @param int|string $matchId
+     * @param string $matchId
      * @return Response
      */
-    public function show(int|string $matchId) : Response
+    public function show(string $matchId) : Response
     {
         return Inertia::render('Details/MatchDetails', [
             'matchDetails' => $this->matchService->getMatchDetails($matchId)
@@ -55,6 +59,11 @@ class MatchController extends Controller
      */
     public function filter(FilterMatchRequest $filters) : JsonResponse
     {
-        return response()->json($this->matchService->search($filters));
+        $data = $this->matchService->search($filters);
+        return response()->json(
+            $data,
+            $data['status'] === true ? 200 : 400
+        );
+
     }
 }

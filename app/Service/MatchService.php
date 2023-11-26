@@ -9,24 +9,26 @@ class MatchService extends BaseService
 
     /**
      * getInitialList
-     * Get Matches from Last 3 days
-     * @return mixed
+     * Get Recent Matches (by 3-Day Difference)
+     * @return array
      */
-    public function getInitialList(): mixed
+    public function getInitialList(): array
     {
-        return $this->footballApiClient->getMatches([
+        return $this->processReturn(
+            $this->footballApiClient->getMatches([
                 'dateFrom' => (new \DateTime('-3 days'))->format('Y-m-d'),
                 'dateTo'   => (new \DateTime())->format('Y-m-d'),
-            ])->request();
+            ])->request()
+        );
     }
 
     /**
      * getMatchDetails
      * Get particular match
-     * @param $matchId
+     * @param string $matchId
      * @return mixed
      */
-    public function getMatchDetails($matchId): mixed
+    public function getMatchDetails(string $matchId): mixed
     {
         return $this->footballApiClient
             ->getMatchById($matchId)
@@ -35,10 +37,10 @@ class MatchService extends BaseService
 
     /**
      * @param $filters
-     * @return mixed
+     * @return array
      * @throws Exception
      */
-    public function search($filters): mixed
+    public function search($filters): array
     {
         // 7-day differences are added by default if dates are null
         if ($filters['dateFrom'] === null && $filters['dateTo'] === null) {
@@ -52,8 +54,29 @@ class MatchService extends BaseService
             $filters['dateTo'] = (new \DateTime($filters['dateFrom'] . ' +6 days'))->format('Y-m-d');
         }
 
-        return $this->footballApiClient
-            ->getMatches($filters->all())
-            ->request();
+        return $this->processReturn(
+            $this->footballApiClient
+                ->getMatches($filters->all())
+                ->request()
+        );
+    }
+
+    /**
+     * @param $response
+     * @return array
+     */
+    private function processReturn($response): array
+    {
+        if (array_key_exists('errorCode', $response) === true) {
+            return [
+                'status' => false,
+                'data'   => []
+            ];
+        }
+
+        return [
+            'status' => true,
+            'data'   => array_reverse($response['matches'])
+        ];
     }
 }

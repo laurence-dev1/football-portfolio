@@ -1,14 +1,17 @@
 # Football Portfolio
-__Laurence Suarez__ - _For Portfolio Purposes_
+**Laurence Suarez** - **For Portfolio Purposes**
 
-- All data are being requested from https://www.football-data.org/.
-
-Stack:
+**Stack:**
 - Laravel
-- Vue
+- Vue, Pinia
 - Inertia
 
-League Codes (Initially Supported)
+**Features:**
+- Matches
+  - Search Matches
+  - View Match Stats/Details
+
+League Codes (Initially Supported, Can be used as filters)
 
 | id   | code |        caption         |
 |------|------|:----------------------:|
@@ -20,8 +23,6 @@ League Codes (Initially Supported)
 | 2001 | CL   | UEFA Champion's League |
 | 2000 | WC   |     FIFA World Cup     |
 
-Areas
-
-| id    | name  |
-|-------|-------|
-| 2224  | Spain |
+_Credits_:
+- All Football data being displayed are being requested from https://www.football-data.org/.
+- Image on header: https://www.cleanpng.com/png-football-2751
