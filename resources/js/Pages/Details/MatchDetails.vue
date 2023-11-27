@@ -27,7 +27,6 @@ export default defineComponent({
     },
 
     mounted() {
-        console.log(this.matchDetails)
         this.matchReqInitialList();
     }
 })

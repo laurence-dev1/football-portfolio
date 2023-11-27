@@ -2,6 +2,7 @@
 @import "variables.css";
 @import "utilities.css";
 @import "common.css";
+@import "animations.css";
 
 .header {
     width: 100%;

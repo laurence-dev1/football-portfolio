@@ -1,5 +1,5 @@
 <script>
-import { defineComponent } from 'vue'
+import {defineComponent, ssrContextKey} from 'vue'
 import MatchStatsTable from "@/Shared/Cards/Match/MatchStatsTable.vue";
 
 export default defineComponent({
@@ -12,15 +12,19 @@ export default defineComponent({
         }
     },
 
-    data() {
-        return {
-            showScore: 'full'
+    computed: {
+        homeScore() {
+            return this.matchDetails.score[this.showScore + 'Time'].home;
+        },
+
+        awayScore() {
+            return this.matchDetails.score[this.showScore + 'Time'].away;
         }
     },
 
-    methods: {
-        score(team) {
-            return this.matchDetails.score[this.showScore + 'Time'][team];
+    data() {
+        return {
+            showScore: 'full'
         }
     }
 })
@@ -45,12 +49,17 @@ export default defineComponent({
         </div>
         <div class="stats__item flex" ref="full_score">
             <img :src="matchDetails.homeTeam.crest" alt="">
-            <span class="score">
-                {{ score('home') }}
-            </span> -
-            <span class="score">
-                {{ score('away') }}
-            </span>
+            <Transition name="fade" mode="out-in">
+                <span :key="homeScore" class="score">
+                    {{ homeScore }}
+                </span>
+            </Transition>
+            -
+            <Transition name="fade" mode="out-in">
+                <span :key="awayScore" class="score">
+                    {{ awayScore }}
+                </span>
+            </Transition>
             <img :src="matchDetails.awayTeam.crest" alt="">
         </div>
 
