@@ -13,6 +13,12 @@ export default defineComponent({
         }
     },
 
+    computed: {
+        hasUser() {
+            return this.$page.props.auth.user !== '';
+        }
+    },
+
     methods: {
         toggleNav() {
             this.showLinks = !this.showLinks;
@@ -39,7 +45,17 @@ export default defineComponent({
         </h3>
         <nav class="header__nav">
             <section class="header__dashboard">
-                <Link href="/">Dashboard</Link>
+                <div v-if="hasUser === true">
+                    <Link href="/">Dashboard</Link>
+                    <Link class="auth__link"
+                          href="/logout"
+                          method="delete">Logout</Link>
+                </div>
+
+                <div v-else>
+                    <Link class="auth__link" href="/login">Login</Link>
+                    <Link class="auth__link" href="/register">Register</Link>
+                </div>
             </section>
             <section class="header__browse">
                 <p @click="toggleNav">Browse</p>
@@ -51,7 +67,6 @@ export default defineComponent({
                             {{ link }}
                         </Link>
                     </li>
-                    <!--<li><Link class="auth__link" href="/login">Login</Link></li>-->
                 </ul>
             </section>
 

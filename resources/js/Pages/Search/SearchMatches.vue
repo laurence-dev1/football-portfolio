@@ -119,10 +119,6 @@ export default defineComponent({
         flex-wrap: wrap;
     }
 
-    .section__filters button {
-        padding: 0.8em;
-    }
-
     .section__filters button:disabled {
         background-color: var(--btn-disable-bg);
         cursor: not-allowed;

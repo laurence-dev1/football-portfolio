@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Service\MatchController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,14 @@ Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
 Route::get('/search/{search?}', [\App\Http\Controllers\SearchController::class, 'index'])
     ->whereIn('search', ['teams', 'matches', 'competitions', 'persons']);
 
-Route::get('/matches/recent/', [MatchController::class, 'index']);
-Route::get('/matches/{matchId}', [MatchController::class, 'show'])->whereNumber('matchId');
-Route::get('/matches/filter', [MatchController::class, 'filter']);
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'index');
+    Route::post('/login', 'store');
+    Route::delete('/logout', 'destroy');
+});
+
+Route::controller(MatchController::class)->group(function () {
+    Route::get('/matches/recent/', 'index');
+    Route::get('/matches/{matchId}', 'show')->whereNumber('matchId');
+    Route::get('/matches/filter', 'filter');
+});
