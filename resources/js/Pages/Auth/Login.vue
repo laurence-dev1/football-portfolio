@@ -4,11 +4,13 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 import PlayerIcon from "@/Shared/Util/PlayerIcon.vue";
 import LockIcon from "@/Shared/Util/LockIcon.vue";
 import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
-import ErrorCard from "@/Shared/Util/ErrorCard.vue";
+import AuthLayout from "@/Shared/AuthLayout.vue";
+import Layout from "@/Shared/Layout.vue";
 
 export default defineComponent({
     name: "Login",
-    components: { ErrorCard, LoadingIcon, Head, Link, LockIcon, PlayerIcon },
+    components: { LoadingIcon, Head, Link, LockIcon, PlayerIcon },
+    layout: [ Layout, AuthLayout ],
 
     data() {
         return {
@@ -21,9 +23,8 @@ export default defineComponent({
 
     methods: {
         doLogin() {
-            if (this.username === '' || this.password === '') {
-                alert('Fill out the login form');
-                return;
+            if (this.loginForm.username === '' || this.loginForm.password === '') {
+                return this.$page.props.errors.username = 'Fill out the form.';
             }
 
             this.loginForm.post('/login', { preserveScroll: true });
@@ -38,130 +39,37 @@ export default defineComponent({
             <title>User Login</title>
         </Head>
 
-
-        <section class="login__banner">
-            <div class="banner__img">
-                <img src="../../../img/login_banner_img.jpg" alt="Login Banner">
+        <form @submit.prevent="doLogin" class="form__auth">
+            <div class="div__icon-label-input">
+                <PlayerIcon />
+                <input type="text"
+                       name="username"
+                       id="username"
+                       v-model="loginForm.username"
+                       placeholder="Username"
+                       autocomplete="username">
             </div>
-            <div class="banner__form">
-                <p class="text_info">Login to bookmark matches, competitions, teams etc.</p>
 
-                <form @submit.prevent="doLogin">
-                    <div class="div__icon-label-input">
-                        <PlayerIcon />
-                        <input type="text"
-                               name="username"
-                               id="username"
-                               v-model="loginForm.username"
-                               placeholder="Username"
-                               autocomplete="username">
-                    </div>
-
-                    <div class="div__icon-label-input">
-                        <LockIcon />
-                        <input type="password"
-                               name="password"
-                               id="password"
-                               v-model="loginForm.password"
-                               placeholder="Password"
-                               autocomplete="current-password">
-                    </div>
-
-                    <LoadingIcon v-if="loginForm.processing === true" />
-                    <button type="submit" class="btn btn_common" :disabled="loginForm.processing === true">
-                        {{ loginForm.processing === true ? 'Please wait...' : 'Login' }}
-                    </button>
-                </form>
-
-
-                <div class="div__register">
-                    <hr>
-                    <Link href="/register" >Create account?</Link>
-                </div>
+            <div class="div__icon-label-input">
+                <LockIcon />
+                <input type="password"
+                       name="password"
+                       id="password"
+                       v-model="loginForm.password"
+                       placeholder="Password"
+                       autocomplete="current-password">
             </div>
-        </section>
 
-        <ErrorCard />
+            <LoadingIcon v-if="loginForm.processing === true" />
+            <button type="submit" class="btn btn_common" :disabled="loginForm.processing === true">
+                {{ loginForm.processing === true ? 'Please wait...' : 'Login' }}
+            </button>
+        </form>
     </div>
 </template>
 
 <style scoped>
-    section.login__banner {
-        width: 60%;
-        margin: 10rem auto 0 auto;
-    }
 
-    .login__banner {
-        display: flex;
-        flex-wrap: wrap;
-        box-shadow: 0 0 15px 4px #d5d5d5;
-    }
 
-    .banner__img img {
-        width: 250px;
-    }
-
-    .banner__form {
-        flex-grow: 1;
-        text-align: center;
-        background-color: var(--primary-bg);
-        padding: 1em;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .div__icon-label-input {
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-
-        margin-top: 1em;
-        border: 1px solid var(--border-bg);
-        border-radius: var(--border-radius);
-
-        padding-left: 0.4em;
-        background-color: #FFF;
-    }
-
-    .div__icon-label-input input {
-        padding: 0.7em;
-        border: none;
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-    }
-
-    .div__icon-label-input input:focus {
-        outline: none;
-    }
-
-    button[type=submit] {
-        width: 70%;
-        margin-top: 1em;
-    }
-
-    .div__register {
-        margin-top: 1rem;
-        font-size: 0.7rem;
-        width: 100%;
-    }
-
-    @media screen and (max-width: 580px) {
-        section.login__banner {
-            width: 80%;
-        }
-
-        .banner__img {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width: 1151px) {
-        .banner__img {
-            display: none;
-        }
-    }
 
 </style>

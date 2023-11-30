@@ -47,9 +47,9 @@ export default defineComponent({
             <section class="header__dashboard">
                 <div v-if="hasUser === true">
                     <Link href="/">Dashboard</Link>
-                    <Link class="auth__link"
+                    <Link class="auth__link btn_logout"
                           href="/logout"
-                          method="delete">Logout</Link>
+                          method="delete" as="button">Logout</Link>
                 </div>
 
                 <div v-else>

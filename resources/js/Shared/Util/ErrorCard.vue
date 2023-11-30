@@ -19,10 +19,17 @@ export default defineComponent({
         }
     },
 
+    methods: {
+        hideMessage() {
+            this.$page.props.errors = {};
+            this.doShow = false;
+        }
+    },
+
     watch: {
         '$page.props.errors': {
             handler: function () {
-                // reset the toggle state if there is still an error after re-submite
+                // reset the toggle state if there is still an error after re-submitted
                 this.doShow = this.hasError;
             },
             deep: true
@@ -35,7 +42,7 @@ export default defineComponent({
     <Transition name="errorDisplay">
         <div v-if="hasError === true && doShow === true"
              class="div__error text-center">
-            <div class="div__close" @click="doShow = false">
+            <div class="div__close" @click="hideMessage">
                 <div></div>
                 <div></div>
             </div>

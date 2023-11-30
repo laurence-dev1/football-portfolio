@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -28,15 +29,9 @@ class LoginController extends Controller
      * Login User
      * @return RedirectResponse
      */
-    public function store(): RedirectResponse
+    public function store(LoginRequest $credentials): RedirectResponse
     {
-        $credentials = request()->validate([
-            'username' => 'required',
-            'password' => 'required'
-        ]);
-
-
-        if (Auth::attempt($credentials) === true) {
+        if (Auth::attempt($credentials->only(['username', 'password'])) === true) {
             request()->session()->regenerate();
 
             return redirect()->intended();
