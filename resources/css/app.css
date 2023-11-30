@@ -59,6 +59,10 @@
     color: var(--btn-text-color);
 }
 
+.header__dashboard a {
+    margin-right: 0.7em;
+}
+
 .header__browse p {
     display: none;
 }
@@ -73,7 +77,6 @@
 a.auth__link {
     background-color: var(--btn-bg);
     font-weight: bold;
-    margin-right: 0.7em;
 }
 
 a.auth__link:hover {

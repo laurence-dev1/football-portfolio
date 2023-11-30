@@ -15,7 +15,7 @@ export default defineComponent({
 
     computed: {
         hasUser() {
-            return this.$page.props.auth.user !== '';
+            return this.$page.props.auth.user !== null;
         }
     },
 

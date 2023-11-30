@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Service\MatchController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,16 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'index']);
+
+    Route::delete('/logout', [LoginController::class, 'destroy']);
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'store']);
+});
+
 
 Route::get('/search/{search?}', [\App\Http\Controllers\SearchController::class, 'index'])
     ->whereIn('search', ['teams', 'matches', 'competitions', 'persons']);
-
-Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'index');
-    Route::post('/login', 'store');
-    Route::delete('/logout', 'destroy');
-});
 
 Route::controller(MatchController::class)->group(function () {
     Route::get('/matches/recent/', 'index');

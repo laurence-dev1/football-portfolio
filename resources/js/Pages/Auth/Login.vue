@@ -4,10 +4,11 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 import PlayerIcon from "@/Shared/Util/PlayerIcon.vue";
 import LockIcon from "@/Shared/Util/LockIcon.vue";
 import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import ErrorCard from "@/Shared/Util/ErrorCard.vue";
 
 export default defineComponent({
     name: "Login",
-    components: {LoadingIcon, Head, Link, LockIcon, PlayerIcon },
+    components: { ErrorCard, LoadingIcon, Head, Link, LockIcon, PlayerIcon },
 
     data() {
         return {
@@ -25,7 +26,7 @@ export default defineComponent({
                 return;
             }
 
-            this.loginForm.post('/login');
+            this.loginForm.post('/login', { preserveScroll: true });
         }
     }
 })
@@ -37,6 +38,7 @@ export default defineComponent({
             <title>User Login</title>
         </Head>
 
+
         <section class="login__banner">
             <div class="banner__img">
                 <img src="../../../img/login_banner_img.jpg" alt="Login Banner">
@@ -47,12 +49,22 @@ export default defineComponent({
                 <form @submit.prevent="doLogin">
                     <div class="div__icon-label-input">
                         <PlayerIcon />
-                        <input type="text" name="username" id="username" v-model="loginForm.username" placeholder="Username">
+                        <input type="text"
+                               name="username"
+                               id="username"
+                               v-model="loginForm.username"
+                               placeholder="Username"
+                               autocomplete="username">
                     </div>
 
                     <div class="div__icon-label-input">
                         <LockIcon />
-                        <input type="text" name="password" id="password" v-model="loginForm.password" placeholder="Password">
+                        <input type="password"
+                               name="password"
+                               id="password"
+                               v-model="loginForm.password"
+                               placeholder="Password"
+                               autocomplete="current-password">
                     </div>
 
                     <LoadingIcon v-if="loginForm.processing === true" />
@@ -61,12 +73,15 @@ export default defineComponent({
                     </button>
                 </form>
 
+
                 <div class="div__register">
                     <hr>
                     <Link href="/register" >Create account?</Link>
                 </div>
             </div>
         </section>
+
+        <ErrorCard />
     </div>
 </template>
 
@@ -111,14 +126,14 @@ export default defineComponent({
         background-color: #FFF;
     }
 
-    .div__icon-label-input input[type=text] {
+    .div__icon-label-input input {
         padding: 0.7em;
         border: none;
         border-top-right-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
     }
 
-    .div__icon-label-input input[type=text]:focus {
+    .div__icon-label-input input:focus {
         outline: none;
     }
 
