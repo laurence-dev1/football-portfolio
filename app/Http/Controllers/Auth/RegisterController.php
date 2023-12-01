@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -38,6 +39,8 @@ class RegisterController extends Controller
             return redirect('/register')
                 ->withErrors(['name' => 'There has been an error on creating the account. Kindly try again.']);
         }
+
+        UserRegistered::dispatch($newUser);
 
         Auth::loginUsingId($newUser->id);
         return redirect('/');

@@ -1,7 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
 import ErrorCard from "@/Shared/Util/ErrorCard.vue";
-import Layout from "@/Shared/Layout.vue";
 import {Link} from "@inertiajs/vue3";
 
 export default defineComponent({
@@ -47,7 +46,7 @@ export default defineComponent({
 
     .login__banner {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         box-shadow: 0 0 15px 4px #d5d5d5;
     }
 
@@ -65,35 +64,6 @@ export default defineComponent({
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .div__icon-label-input {
-        display: flex;
-        align-items: center;
-        gap: 0.5em;
-
-        margin-top: 1em;
-        border: 1px solid var(--border-bg);
-        border-radius: var(--border-radius);
-
-        padding-left: 0.4em;
-        background-color: #FFF;
-    }
-
-    .div__icon-label-input input {
-        padding: 0.7em;
-        border: none;
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-    }
-
-    .div__icon-label-input input:focus {
-        outline: none;
-    }
-
-    button[type=submit] {
-        width: 70%;
-        margin-top: 1em;
     }
 
     .div__switch {
