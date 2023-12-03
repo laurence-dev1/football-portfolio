@@ -78,7 +78,8 @@ export default defineComponent({
     </main>
 
     <footer class="footer text-center">
-        <p>For Portfolio Purposes - Laurence Suarez | Credit - All Data from www.football-data.org (Free Tier)</p>
+        <p>Football data provided by the Football-Data.org API | Free Tier</p>
+        <small>This application is for portfolio purposes only - Laurence Suarez</small>
     </footer>
 </template>
 
