@@ -16,7 +16,7 @@ class SendWelcomeToRegisteredUser implements ShouldQueue
      *
      * @var string|null
      */
-    public ?string $connection = 'redis';
+    public ?string $connection = 'database';
 
     /**
      * The name of the queue the job should be sent to.
