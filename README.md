@@ -25,4 +25,4 @@ League Codes (Initially Supported, Can be used as filters)
 
 _Credits_:
 - All Football data being displayed are being requested from https://www.football-data.org/.
-- Image on header: https://www.cleanpng.com/png-football-2751
+- No image used in this app is mine. Credits to the owners of all images that were used.
