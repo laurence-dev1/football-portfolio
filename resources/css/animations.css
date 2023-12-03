@@ -20,3 +20,33 @@
     transform: translateY(100%);
     opacity: 0;
 }
+
+.errorDisplay-enter-active,
+.errorDisplay-leave-active {
+    animation-name: shake;
+    animation-duration: 0.3s;
+}
+
+.errorDisplay-leave-active {
+    animation-direction: reverse;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateY(0px);
+        opacity: 0;
+    }
+
+    25%, 75% {
+        transform: translateY(10px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

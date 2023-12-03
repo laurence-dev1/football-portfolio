@@ -18,7 +18,7 @@ export default defineComponent({
         <title>Dashboard</title>
     </Head>
 
-    <h2>Your Bookmarks</h2>
+    <h2>Here {{ $page.props.auth.user.name }}, Your Bookmarks!</h2>
 </template>
 
 <style scoped>

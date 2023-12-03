@@ -13,6 +13,12 @@ export default defineComponent({
         }
     },
 
+    computed: {
+        hasUser() {
+            return this.$page.props.auth.user !== null;
+        }
+    },
+
     methods: {
         toggleNav() {
             this.showLinks = !this.showLinks;
@@ -39,7 +45,17 @@ export default defineComponent({
         </h3>
         <nav class="header__nav">
             <section class="header__dashboard">
-                <Link href="/">Dashboard</Link>
+                <div v-if="hasUser === true">
+                    <Link href="/">Dashboard</Link>
+                    <Link class="auth__link btn_logout"
+                          href="/logout"
+                          method="delete" as="button">Logout</Link>
+                </div>
+
+                <div v-else>
+                    <Link class="auth__link" href="/login">Login</Link>
+                    <Link class="auth__link" href="/register">Register</Link>
+                </div>
             </section>
             <section class="header__browse">
                 <p @click="toggleNav">Browse</p>
@@ -51,7 +67,6 @@ export default defineComponent({
                             {{ link }}
                         </Link>
                     </li>
-                    <!--<li><Link class="auth__link" href="/login">Login</Link></li>-->
                 </ul>
             </section>
 
@@ -63,7 +78,8 @@ export default defineComponent({
     </main>
 
     <footer class="footer text-center">
-        <p>For Portfolio Purposes - Laurence Suarez | Credit - All Data from www.football-data.org (Free Tier)</p>
+        <p>Football data provided by the Football-Data.org API | Free Tier</p>
+        <small>This application is for portfolio purposes only - Laurence Suarez</small>
     </footer>
 </template>
 
