@@ -1,9 +1,9 @@
 <script>
 import { defineComponent } from 'vue'
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import PlayerIcon from "@/Shared/Util/PlayerIcon.vue";
-import LockIcon from "@/Shared/Util/LockIcon.vue";
-import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import PlayerIcon from "@/Shared/Util/Icons/PlayerIcon.vue";
+import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import AuthLayout from "@/Shared/AuthLayout.vue";
 import Layout from "@/Shared/Layout.vue";
 

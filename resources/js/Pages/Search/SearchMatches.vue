@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 import { Head, Link, useRemember } from "@inertiajs/vue3";
 import CompetitionSelect from "@/Shared/SearchFilters/CompetitionSelect.vue";
 import DateRangePicker from "@/Shared/SearchFilters/DateRangePicker.vue";
-import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 
 import { mapActions, mapState } from "pinia";
@@ -64,7 +64,7 @@ export default defineComponent({
         <p class="text_info">API Features does not allow search (only filters), and date filter only allow 10-Day Difference.</p>
 
         <section class="main__group">
-            <h4>Recent Matches (Last 3 Matches, 3-Day Duration)</h4>
+            <h4>Recent/Upcoming Matches (3-Day Duration)</h4>
         </section>
 
         <div v-if="recent3Matches.length > 0">

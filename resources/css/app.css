@@ -109,14 +109,7 @@ a.auth__link:hover {
     transition-duration: 0.3s;
 }
 
-a.list__item:any-link {
-    text-decoration: none;
-    color: inherit;
-}
-
-a.list__item:hover,
-a.list__item:active,
-a.list__item:focus {
+div.list__item:hover {
     background-color: var(--primary-hover-bg);
 }
 

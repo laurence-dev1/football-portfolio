@@ -3,9 +3,9 @@ import {defineComponent} from 'vue'
 import Layout from "@/Shared/Layout.vue";
 import AuthLayout from "@/Shared/AuthLayout.vue";
 import {Head, Link, useForm} from "@inertiajs/vue3";
-import LockIcon from "@/Shared/Util/LockIcon.vue";
-import PlayerIcon from "@/Shared/Util/PlayerIcon.vue";
-import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
+import PlayerIcon from "@/Shared/Util/Icons/PlayerIcon.vue";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 
 export default defineComponent({
     name: "Register",

@@ -3,7 +3,7 @@ import {defineComponent} from 'vue'
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 import {mapActions, mapState} from "pinia";
 import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
-import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import { Link } from "@inertiajs/vue3";
 
 export default defineComponent({
@@ -22,14 +22,14 @@ export default defineComponent({
 <template>
     <div>
         <LoadingIcon v-if="isLoading === true" />
-        <MatchItem
-            v-for="match in matchBookmarks"
-            :match-data="match" />
 
         <div v-if="isLoading === false && matchBookmarks.length === 0"
              class="text-center list__item">
             No bookmarked matches, check out some <Link href="/search/matches">here</Link>
         </div>
+        <MatchItem v-else
+            v-for="match in matchBookmarks"
+            :match-data="match" />
     </div>
 </template>
 

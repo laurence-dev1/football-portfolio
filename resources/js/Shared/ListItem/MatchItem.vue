@@ -1,11 +1,14 @@
 <script>
 import {defineComponent} from 'vue'
-import { Link } from "@inertiajs/vue3";
+import {Link, router} from "@inertiajs/vue3";
 import date from "../../mixins/date.js";
+import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
+import {mapState} from "pinia";
+import BookmarkButton from "@/Shared/Util/BookmarkButton.vue";
 
 export default defineComponent({
     name: "MatchItem",
-    components: { Link },
+    components: {BookmarkButton, Link },
     props: {
         doPreserveScroll: true,
 
@@ -16,16 +19,32 @@ export default defineComponent({
     },
 
     computed: {
+        ...mapState(useMatchDashboardRequestStore, ['matchBookmarks']),
+
         formattedDate() {
             return date.formatUtcDate(this.matchData.utcDate);
+        },
+
+        isBookmarked() {
+             return this.matchBookmarks.some(matchBookmark => matchBookmark.id === this.matchData.id);
+        }
+    },
+
+    methods: {
+        goToDetails(event) {
+            if (this.$refs.bookmarkDiv.contains(event.target)) {
+                // if the click event is within the bookmark button, redirection will not happen
+                return;
+            }
+
+            router.get('/matches/' + this.matchData.id, {}, { preserveScroll: this.doPreserveScroll })
         }
     }
 })
 </script>
 
 <template>
-    <Link :href="'/matches/' + matchData.id"
-          class="list__item match__item" :preserve-scroll="doPreserveScroll">
+    <div class="list__item match__item" @click="goToDetails">
 
         <div class="match__data w-35p">
             <img class="club__crest"
@@ -48,10 +67,15 @@ export default defineComponent({
                  :alt="matchData.competition.name"
                  :title="matchData.competition.name">
         </div>
-        <div class="match__data w-35p text-center">
-            {{ matchData.status + ' | ' + formattedDate }}
+        <div class="match__data match__time text-center"
+            :class="$page.props.auth.user !== null ? 'w-20p' : 'w-35p'">
+            <strong>{{ matchData.status }}</strong>
+            <span class="nowrap">{{ formattedDate }}</span>
         </div>
-    </Link>
+        <div v-if="$page.props.auth.user !== null" class="match__data w-15p" ref="bookmarkDiv">
+            <BookmarkButton type="match" :id="matchData.id" :isBookmarked="isBookmarked" />
+        </div>
+    </div>
 </template>
 
 <style scoped>
@@ -63,10 +87,14 @@ export default defineComponent({
         width: 70px;
     }
 
-    .match__data{
+    .match__data {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+    }
+
+    .match__time {
+        flex-direction: column
     }
 
     @media screen and (max-width: 580px) {

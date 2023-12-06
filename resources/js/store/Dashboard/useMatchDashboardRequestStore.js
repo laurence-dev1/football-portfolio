@@ -11,6 +11,10 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
 
     actions: {
         async requestBookmarks() {
+            if (this.matchBookmarks.length > 0) {
+                return;
+            }
+
             this.isLoading = true;
 
             try {
