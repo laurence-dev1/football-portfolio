@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Bookmark\BookmarkMatch;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,9 @@ class DatabaseSeeder extends Seeder
         ])->create();
 
         User::factory(4)->create();
+        BookmarkMatch::factory([
+            'user_id'      => User::first()->id,
+            'api_match_id' => 327117
+        ])->create();
     }
 }

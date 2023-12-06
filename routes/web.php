@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Bookmarks\MatchBookmarkController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Service\MatchController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
+    Route::delete('/logout', [LoginController::class, 'destroy']);
+
     Route::get('/', [DashboardController::class, 'index']);
 
-    Route::delete('/logout', [LoginController::class, 'destroy']);
+    Route::get('/bookmarks/matches', [MatchBookmarkController::class, 'index']);
+    Route::post('/bookmarks/matches', [MatchBookmarkController::class, 'store']);
+    Route::delete('/bookmarks/matches', [MatchBookmarkController::class, 'destroy']);
 });
 
 Route::middleware('guest')->group(function () {

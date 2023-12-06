@@ -32,11 +32,7 @@ class MatchController extends Controller
      */
     public function index(): JsonResponse
     {
-        $data = $this->matchService->getInitialList();
-        return response()->json(
-            $data,
-            $data['status'] === true ? 200 : 400
-        );
+        return $this->formatAjaxResponse($this->matchService->getInitialList());
     }
 
     /**
@@ -59,11 +55,6 @@ class MatchController extends Controller
      */
     public function filter(FilterMatchRequest $filters) : JsonResponse
     {
-        $data = $this->matchService->search($filters);
-        return response()->json(
-            $data,
-            $data['status'] === true ? 200 : 400
-        );
-
+        return $this->formatAjaxResponse($this->matchService->search($filters));
     }
 }

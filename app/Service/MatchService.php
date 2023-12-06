@@ -2,7 +2,10 @@
 
 namespace App\Service;
 
+use App\Models\User;
+use DateTime;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class MatchService extends BaseService
 {
@@ -16,8 +19,8 @@ class MatchService extends BaseService
     {
         return $this->processReturn(
             $this->footballApiClient->getMatches([
-                'dateFrom' => (new \DateTime('-3 days'))->format('Y-m-d'),
-                'dateTo'   => (new \DateTime())->format('Y-m-d'),
+                'dateFrom' => (new DateTime('-3 days'))->format('Y-m-d'),
+                'dateTo'   => (new DateTime())->format('Y-m-d'),
             ])->request()
         );
     }
@@ -36,6 +39,8 @@ class MatchService extends BaseService
     }
 
     /**
+     * search
+     * Perform match search on API
      * @param $filters
      * @return array
      * @throws Exception
@@ -44,14 +49,14 @@ class MatchService extends BaseService
     {
         // 7-day differences are added by default if dates are null
         if ($filters['dateFrom'] === null && $filters['dateTo'] === null) {
-            $filters['dateFrom'] = (new \DateTime('-6 days'))->format('Y-m-d');
-            $filters['dateTo'] = (new \DateTime())->format('Y-m-d');
+            $filters['dateFrom'] = (new DateTime('-6 days'))->format('Y-m-d');
+            $filters['dateTo'] = (new DateTime())->format('Y-m-d');
 
         } else if ($filters['dateFrom'] === null && $filters['dateTo'] !== null) {
-            $filters['dateFrom'] = (new \DateTime($filters['dateTo'] . ' -6 days'))->format('Y-m-d');
+            $filters['dateFrom'] = (new DateTime($filters['dateTo'] . ' -6 days'))->format('Y-m-d');
 
         } else if ($filters['dateFrom'] !== null && $filters['dateTo'] === null) {
-            $filters['dateTo'] = (new \DateTime($filters['dateFrom'] . ' +6 days'))->format('Y-m-d');
+            $filters['dateTo'] = (new DateTime($filters['dateFrom'] . ' +6 days'))->format('Y-m-d');
         }
 
         return $this->processReturn(
@@ -62,6 +67,7 @@ class MatchService extends BaseService
     }
 
     /**
+     * processReturn
      * @param $response
      * @return array
      */
@@ -78,5 +84,20 @@ class MatchService extends BaseService
             'status' => true,
             'data'   => array_reverse($response['matches'])
         ];
+    }
+
+    /**
+     * getMatchBookmarks
+     * Retrieve match bookmarks from DB and request on API
+     * @return array
+     */
+    public function getMatchBookmarks(): array
+    {
+        $savedMatchesId = User::find(Auth::id())->savedMatches->implode('api_match_id', ',');
+        return $this->processReturn(
+            $this->footballApiClient
+                ->getMatches(['ids' => $savedMatchesId])
+                ->request()
+        );
     }
 }
