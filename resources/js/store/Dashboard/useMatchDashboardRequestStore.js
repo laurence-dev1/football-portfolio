@@ -10,6 +10,11 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
     },
 
     actions: {
+        /**
+         * requestBookmarks
+         * Request list of match bookmarks
+         * @returns {Promise<void>}
+         */
         async requestBookmarks() {
             if (this.matchBookmarks.length > 0) {
                 return;
@@ -22,39 +27,51 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
                 this.matchBookmarks = response.data.data;
 
             } catch (error) {
-                this.$page.props.errors = {error: 'Something went wrong in retrieving your bookmarked matches, kindly refresh the page to try again.'}
+                alert('Something went wrong in retrieving your bookmarked matches, kindly refresh the page to try again.');
 
             } finally {
                 this.isLoading = false;
             }
         },
 
-        async addBookmark(matchId) {
+        /**
+         * addBookmark
+         * Do request of adding bookmakr
+         * @param matchData
+         * @returns {Promise<void>}
+         */
+        async addBookmark(matchData) {
             this.isLoading = true;
 
             try {
-                await axios.post('/bookmarks/matches', {matchId: matchId});
-                alert('Match added!');
+                await axios.post('/bookmarks/matches', {matchId: matchData.id});
+                this.matchBookmarks.unshift(matchData);
+                alert('Match bookmark added!');
 
             } catch (error) {
-                this.$page.props.errors = {error: 'Something went wrong in adding the match into your bookmarks, kindly refresh the page to try again.'}
+                alert(error.response.data.data.message);
 
             } finally {
                 this.isLoading = false;
             }
         },
 
-        async removeBookmark(matchId) {
+        /**
+         * removeBookmark
+         * Do request of removing bookmark
+         * @param matchData
+         * @returns {Promise<void>}
+         */
+        async removeBookmark(matchData) {
             this.isLoading = true;
 
             try {
-                await axios.delete('/bookmarks/matches', {
-                    data: {matchId: matchId}
-                });
-                alert('Match removed!');
+                await axios.delete('/bookmarks/matches', {data: {matchId: matchData.id}});
+                this.matchBookmarks = this.matchBookmarks.filter(bookmark => bookmark.id !== matchData.id);
+                alert('Match bookmark removed!');
 
             } catch (error) {
-                this.$page.props.errors = {error: 'Something went wrong in removing the match into your bookmarks, kindly refresh the page to try again.'}
+                alert(error.response.data.data.message);
 
             } finally {
                 this.isLoading = false;

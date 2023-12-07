@@ -17,12 +17,22 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
     },
 
     getters: {
+        /**
+         * recent3Matches
+         * Retrieve 3 latest matches
+         * @returns {*[]}
+         */
         recent3Matches() {
             return this.responses.initialList.slice(0, 3);
         }
     },
 
     actions: {
+        /**
+         * requestInitialList
+         * Request recent matches
+         * @returns {Promise<void>}
+         */
         async requestInitialList() {
             if (this.responses.initialList.length > 0) {
                 return;
@@ -41,6 +51,12 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
             }
         },
 
+        /**
+         * requestFilteredList
+         * Do Request filter results
+         * @param filters
+         * @returns {Promise<void>}
+         */
         async requestFilteredLlist(filters) {
             this.loadingState.filteredList = true;
 

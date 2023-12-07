@@ -6,6 +6,7 @@ import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
 import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import AuthLayout from "@/Shared/AuthLayout.vue";
 import Layout from "@/Shared/Layout.vue";
+import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
 
 export default defineComponent({
     name: "Login",
@@ -29,6 +30,13 @@ export default defineComponent({
 
             this.loginForm.post('/login', { preserveScroll: true });
         }
+    },
+
+    mounted() {
+        // reset bookmarks store so that in case of coming from logging out,
+        // the bookmarks of previous user will not persist on next one
+        // (provided that account switching is within same client)
+        useMatchDashboardRequestStore().$reset();
     }
 })
 </script>

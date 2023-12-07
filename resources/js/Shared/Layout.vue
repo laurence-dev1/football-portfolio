@@ -2,10 +2,11 @@
 import {defineComponent} from 'vue'
 import { Link } from "@inertiajs/vue3";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
+import ErrorCard from "@/Shared/Util/ErrorCard.vue";
 
 export default defineComponent({
     name: "Layout",
-    components: { Link },
+    components: { ErrorCard, Link },
     data() {
         return {
             navLinks: ['Matches', 'Competitions', 'Teams', 'Persons'],
@@ -30,6 +31,8 @@ export default defineComponent({
                 matches: useMatchListRequestStore()
             }
 
+            // when navigating via navbar, used (if any) search filters are not persisted,
+            // with this, for ui consistency, the lists from store will be reset
             stores[type].$reset();
         }
     }
@@ -75,6 +78,8 @@ export default defineComponent({
 
     <main class="main">
         <slot></slot>
+
+        <ErrorCard />
     </main>
 
     <footer class="footer text-center">

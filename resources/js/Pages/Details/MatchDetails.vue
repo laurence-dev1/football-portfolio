@@ -4,8 +4,9 @@ import { Head, Link } from "@inertiajs/vue3";
 import CardMatchDetails from "@/Shared/Cards/Match/CardMatchDetails.vue";
 import CardMatchStats from "@/Shared/Cards/Match/CardMatchStats.vue";
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
-import {mapActions, mapState} from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
+import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
 
 export default defineComponent({
     name: "MatchDetails",
@@ -23,10 +24,12 @@ export default defineComponent({
     },
 
     methods: {
-        ...mapActions(useMatchListRequestStore, { matchReqInitialList: 'requestInitialList' })
+        ...mapActions(useMatchListRequestStore, { matchReqInitialList: 'requestInitialList' }),
+        ...mapActions(useMatchDashboardRequestStore, { matchRequestBookmarks: 'requestBookmarks' })
     },
 
     mounted() {
+        this.matchRequestBookmarks();
         this.matchReqInitialList();
     }
 })

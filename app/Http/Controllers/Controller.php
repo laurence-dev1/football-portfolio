@@ -18,11 +18,8 @@ class Controller extends BaseController
      * @param array $data
      * @return JsonResponse
      */
-    protected function formatAjaxResponse($data): JsonResponse
+    protected function formatAjaxResponse(array $data): JsonResponse
     {
-        return response()->json(
-            $data,
-            $data['status'] === true ? 200 : 400
-        );
+        return response()->json($data, $data['status'] === true ? 200 : 400);
     }
 }

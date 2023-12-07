@@ -32,7 +32,8 @@ export default defineComponent({
 
     methods: {
         goToDetails(event) {
-            if (this.$refs.bookmarkDiv.contains(event.target)) {
+            if (this.$refs.hasOwnProperty('bookmarkDiv') === true &&
+                this.$refs.bookmarkDiv.contains(event.target) === true) {
                 // if the click event is within the bookmark button, redirection will not happen
                 return;
             }
@@ -73,7 +74,7 @@ export default defineComponent({
             <span class="nowrap">{{ formattedDate }}</span>
         </div>
         <div v-if="$page.props.auth.user !== null" class="match__data w-15p" ref="bookmarkDiv">
-            <BookmarkButton type="match" :id="matchData.id" :isBookmarked="isBookmarked" />
+            <BookmarkButton type="match" :dataToBookmark="matchData" :isBookmarked="isBookmarked" />
         </div>
     </div>
 </template>

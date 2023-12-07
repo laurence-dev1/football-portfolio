@@ -14,7 +14,10 @@ export default defineComponent({
             type: String
         },
 
-        id: { required: true },
+        dataToBookmark: {
+            required: true,
+            type: Object
+        },
 
         isBookmarked: {
             required: true,
@@ -30,7 +33,7 @@ export default defineComponent({
 
         toggleBookmark() {
             const storeMethod = (this.isBookmarked === true) ? `${this.type}DelBookmark` : `${this.type}AddBookmark`;
-            this[storeMethod](this.id);
+            this[storeMethod](this.dataToBookmark);
         }
     }
 })
@@ -38,7 +41,7 @@ export default defineComponent({
 
 <template>
     <button class="btn" @click="toggleBookmark">
-        <Transition name="fade" mode="in-out">
+        <Transition name="fade" mode="out-in">
             <BookmarkCheckIcon v-if="isBookmarked === true" />
             <BookmarkIcon v-else />
         </Transition>

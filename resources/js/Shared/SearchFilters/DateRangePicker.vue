@@ -25,11 +25,11 @@ export default defineComponent({
                 let dateTo = new Date(this.dateToSelect);
 
                 if (dateFrom > dateTo) {
-                    alert('"From Date" should be less than "To Date"');
+                    this.$page.props.errors.date = '"From Date" should be less than "To Date"';
                     this[target.id + 'Select'] = '';
 
                 } else if (new Date(dateTo.getTime() - dateFrom.getTime()).getUTCDate() > 10) {
-                    alert('Date difference should be less than or equal to 10 days.');
+                    this.$page.props.errors.date = 'Date difference should be less than or equal to 10 days.';
                     this[target.id + 'Select'] = '';
                 }
             }

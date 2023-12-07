@@ -25,7 +25,7 @@ export default defineComponent({
 
         <div v-if="isLoading === false && matchBookmarks.length === 0"
              class="text-center list__item">
-            No bookmarked matches, check out some <Link href="/search/matches">here</Link>
+            No bookmarked matches, check out some <Link href="/search/matches">here</Link>.
         </div>
         <MatchItem v-else
             v-for="match in matchBookmarks"

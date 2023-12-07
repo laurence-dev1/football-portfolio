@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Bookmarks;
 use App\Http\Controllers\Controller;
 use App\Service\MatchService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class MatchBookmarkController extends Controller
 {
@@ -32,5 +31,26 @@ class MatchBookmarkController extends Controller
     public function index(): JsonResponse
     {
         return $this->formatAjaxResponse($this->matchService->getMatchBookmarks());
+    }
+
+    /**
+     * store
+     * Add match bookmark
+     * @return JsonResponse
+     *
+     */
+    public function store(): JsonResponse
+    {
+        return $this->formatAjaxResponse($this->matchService->addBookmark());
+    }
+
+    /**
+     * destroy
+     * Remove match bookmark
+     * @return JsonResponse
+     */
+    public function destroy(): JsonResponse
+    {
+        return $this->formatAjaxResponse($this->matchService->removeBookmark());
     }
 }

@@ -105,6 +105,8 @@ a.auth__link:hover {
     border-radius: var(--border-radius);
     background-color: var(--primary-bg);
 
+    cursor: pointer;
+
     transition-property: background-color;
     transition-duration: 0.3s;
 }
