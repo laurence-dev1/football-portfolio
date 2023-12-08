@@ -1,9 +1,11 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import date from "@/mixins/date.js";
+import BookmarkButton from "@/Shared/Util/BookmarkButton.vue";
 
 export default defineComponent({
     name: "CardMatchDetails",
+    components: { BookmarkButton },
     props: {
         matchDetails: {
             type: Object,
@@ -21,7 +23,10 @@ export default defineComponent({
 
 <template>
     <div class="match__details card">
-        <h4>Match Details</h4>
+        <div class="details__head">
+            <h4>Match Details</h4>
+            <BookmarkButton :dataToBookmark="matchDetails" type="match" />
+        </div>
         <hr>
 
         <div class="details__item flex">
@@ -115,6 +120,12 @@ export default defineComponent({
 
     .match__details {
         width: 40%;
+    }
+
+    .details__head {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: nowrap;
     }
 
     .match__details .details__item {

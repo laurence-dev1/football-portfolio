@@ -1,5 +1,7 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
+import { mapState } from "pinia";
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export default defineComponent({
     name: "ErrorCard",
@@ -10,24 +12,23 @@ export default defineComponent({
     },
 
     computed: {
-        errorBag() {
-            return this.$page.props.errors;
-        },
+        ...mapState(useMessageStore, ['errorMessages']),
 
         hasError() {
-            return Object.keys(this.errorBag).length > 0;
+            return Object.keys(this.errorMessages).length > 0;
         }
     },
 
     methods: {
         hideMessage() {
-            this.$page.props.errors = {};
+            useMessageStore().errorMessages = {};
             this.doShow = false;
         }
     },
 
     watch: {
-        '$page.props.errors': {
+        // watch useMessageStore().errorMessages
+        'errorMessages': {
             handler: function () {
                 // reset the toggle state if there is still an error after re-submitted
                 this.doShow = this.hasError;
@@ -39,15 +40,15 @@ export default defineComponent({
 </script>
 
 <template>
-    <Transition name="errorDisplay">
+    <Transition name="msgDisplay">
         <div v-if="hasError === true && doShow === true"
-             class="div__error text-center">
+             class="card__message card__error text-center">
             <div class="div__close" @click="hideMessage">
                 <div></div>
                 <div></div>
             </div>
             <div class="div__svg">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="30" height="30" viewBox="0 0 256 256" xml:space="preserve">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" xml:space="preserve">
                 <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
                     <path d="M 45 90 C 20.187 90 0 69.813 0 45 C 0 20.187 20.187 0 45 0 c 24.813 0 45 20.187 45 45 C 90 69.813 69.813 90 45 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(232,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
                     <path d="M 45 60.473 c -2.493 0 -4.515 -2.022 -4.515 -4.515 v -36.44 c 0 -2.493 2.022 -4.515 4.515 -4.515 s 4.515 2.022 4.515 4.515 v 36.44 C 49.515 58.451 47.493 60.473 45 60.473 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
@@ -56,65 +57,12 @@ export default defineComponent({
             </svg>
             </div>
             <div class="div__msgs">
-                <p v-for="(error, index) in errorBag" :key="index">{{ error }}</p>
+                <p v-for="(error, index) in errorMessages" :key="index">{{ error }}</p>
             </div>
         </div>
     </Transition>
 </template>
 
 <style scoped>
-    .div__error {
-        border: 2px solid var(--btn-disable-bg);
-        border-radius: var(--border-radius);
-        padding: 0.7em;
-        background: var(--body-bg);
 
-        position: absolute;
-        width: 20%;
-        top: 20%;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .div__msgs {
-        font-size: 0.8rem;
-    }
-
-    .div__close {
-        position: absolute;
-        right: 2%;
-    }
-
-    .div__close div{
-        background-color: #000;
-        width: 10px;
-        height: 2px;
-        cursor: pointer;
-
-        transition-property: background-color;
-    }
-
-    .div__close div:first-child {
-        transform: rotate(45deg);
-    }
-
-    .div__close div:nth-child(2) {
-        transform: translateY(-2px) rotate(-45deg);
-    }
-
-    @media screen and (max-width: 580px) {
-        .div__error {
-            width: 60%;
-            top: 10%;
-        }
-    }
-
-    @media screen and (min-width: 581px) and (max-width: 1151px) {
-        .div__error {
-            width: 40%;
-            top: 10%;
-        }
-    }
 </style>

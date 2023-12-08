@@ -26,3 +26,65 @@ input[type=radio], input[type=checkbox] {
     background-color: var(--btn-bg);
     color: var(--btn-text-color);
 }
+
+.card__error {
+    border: 3px solid var(--btn-disable-bg);
+}
+
+.card__success {
+    border: 3px solid var(--btn-hover-bg);
+}
+
+.card__message {
+    border-radius: var(--border-radius);
+    padding: 0.7em;
+    background: var(--body-bg);
+
+    position: fixed;
+    width: 30%;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card__message .div__msgs {
+    font-size: 0.8rem;
+}
+
+.card__message .div__close {
+    position: absolute;
+    right: 2%;
+}
+
+.card__message .div__close div{
+    background-color: #000;
+    width: 10px;
+    height: 2px;
+    cursor: pointer;
+
+    transition-property: background-color;
+}
+
+.card__message .div__close div:first-child {
+    transform: rotate(45deg);
+}
+
+.card__message .div__close div:nth-child(2) {
+    transform: translateY(-2px) rotate(-45deg);
+}
+
+@media screen and (max-width: 580px) {
+    .card__message {
+        width: 70%;
+        top: 10%;
+    }
+}
+
+@media screen and (min-width: 581px) and (max-width: 1151px) {
+    .card__message {
+        width: 50%;
+        top: 10%;
+    }
+}

@@ -1,11 +1,10 @@
 <script>
 import { defineComponent } from 'vue'
-import ErrorCard from "@/Shared/Util/ErrorCard.vue";
 import {Link} from "@inertiajs/vue3";
 
 export default defineComponent({
     name: "AuthLayout",
-    components: { Link, ErrorCard },
+    components: { Link },
     computed: {
         currentPage() {
             return this.$page.component === 'Auth/Login' ? 'Login' : 'Register';
@@ -33,8 +32,6 @@ export default defineComponent({
                 </div>
             </div>
         </section>
-
-        <ErrorCard />
     </div>
 </template>
 

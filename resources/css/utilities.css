@@ -46,11 +46,16 @@
     width: 60%;
 }
 
+.mt-1 {
+    margin-top: 1rem;
+}
+
 .btn {
     padding: 0.8em 1em;
     border-radius: var(--border-radius);
     font-weight: bold;
     border: 1px solid var(--border-bg);
+    cursor: pointer;
 }
 
 .btn_common {
@@ -64,6 +69,11 @@
     color: var(--btn-text-color);
 }
 
+.btn_common:disabled {
+    background-color: var(--btn-disable-bg);
+    cursor: not-allowed;
+}
+
 p.text_info {
     font-size: 0.8rem;
     margin-top: 0.2em;
@@ -75,4 +85,8 @@ p.text_info {
     box-shadow: 0 0 15px 4px #d5d5d5;
 
     padding: 1em;
+}
+
+.nowrap {
+    white-space: nowrap;
 }
