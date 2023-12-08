@@ -46,6 +46,10 @@
     width: 60%;
 }
 
+.mt-1 {
+    margin-top: 1rem;
+}
+
 .btn {
     padding: 0.8em 1em;
     border-radius: var(--border-radius);

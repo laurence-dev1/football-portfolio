@@ -56,9 +56,10 @@ export default defineComponent({
 
         <div class="recent_matches">
             <h2>Check out other recent matches!</h2>
-            <template v-for="match in recentMatches">
-                <MatchItem :matchData="match" :do-preserve-scroll="false" />
-            </template>
+            <div class="list mt-1">
+                <MatchItem v-for="match in recentMatches"
+                    :matchData="match" :do-preserve-scroll="false" />
+            </div>
         </div>
     </div>
 </template>

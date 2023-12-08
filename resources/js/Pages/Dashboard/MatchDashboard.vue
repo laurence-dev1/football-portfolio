@@ -1,7 +1,7 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
-import {mapActions, mapState} from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
 import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import { Link } from "@inertiajs/vue3";
@@ -10,7 +10,12 @@ export default defineComponent({
     name: "MatchDashboard",
     components: { LoadingIcon, MatchItem, Link },
 
-    computed: { ...mapState(useMatchBookmarkRequestStore, ['isListLoading', 'matchBookmarks']) },
+    computed: {
+        ...mapState(useMatchBookmarkRequestStore, {
+            isListLoading: 'isListLoading',
+            matchBookmarks: 'bookmarks'
+        })
+    },
     methods: { ...mapActions(useMatchBookmarkRequestStore, ['requestBookmarks']) },
 
     async mounted() {
@@ -27,9 +32,11 @@ export default defineComponent({
              class="text-center list__item">
             No bookmarked matches, check out some <Link href="/search/matches">here</Link>.
         </div>
-        <MatchItem v-else
-            v-for="match in matchBookmarks"
-            :match-data="match" />
+        <div class="list" v-else>
+            <MatchItem
+                v-for="match in matchBookmarks"
+                :match-data="match" />
+        </div>
     </div>
 </template>
 

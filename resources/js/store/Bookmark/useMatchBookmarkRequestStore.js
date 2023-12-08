@@ -11,7 +11,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
             // will be saved as an object { id: bool } to prevent other instances of <BookmarkButton> to update
             // added keys will be deleted after request so that keys will not stack when toggling multiple bookmarks
             isToggleLoading: {},
-            matchBookmarks: []
+            bookmarks: []
         }
     },
 
@@ -22,7 +22,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
          * @returns {Promise<void>}
          */
         async requestBookmarks() {
-            if (this.matchBookmarks.length > 0 || useAuthStore().isAuthenticated === false) {
+            if (this.bookmarks.length > 0 || useAuthStore().isAuthenticated === false) {
                 return;
             }
 
@@ -30,7 +30,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
 
             try {
                 let response = await axios.get('/bookmarks/matches');
-                this.matchBookmarks = response.data.data;
+                this.bookmarks = response.data.data;
 
             } catch (error) {
                 useMessageStore().$patch({
@@ -53,7 +53,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
 
             try {
                 await axios.post('/bookmarks/matches', {matchId: matchData.id});
-                this.matchBookmarks.unshift(matchData);
+                this.bookmarks.unshift(matchData);
                 useMessageStore().$patch({
                     successMessages: { success: 'Match bookmark added!' }
                 });
@@ -83,7 +83,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
 
             try {
                 await axios.delete('/bookmarks/matches', {data: {matchId: matchData.id}});
-                this.matchBookmarks = this.matchBookmarks.filter(bookmark => bookmark.id !== matchData.id);
+                this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== matchData.id);
                 useMessageStore().$patch({
                     successMessages: { success: 'Match bookmark removed!' }
                 });

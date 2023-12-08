@@ -17,11 +17,6 @@ export default defineComponent({
         dataToBookmark: {
             required: true,
             type: Object
-        },
-
-        isBookmarked: {
-            required: true,
-            type: Boolean
         }
     },
 
@@ -34,6 +29,10 @@ export default defineComponent({
     },
 
     computed: {
+        isBookmarked() {
+            return this.bookmarkStore[this.type].bookmarks.some(bookmark => bookmark.id === this.dataToBookmark.id)
+        },
+
         isToggleLoading() {
             return this.bookmarkStore[this.type].isToggleLoading[this.dataToBookmark.id];
         }

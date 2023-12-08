@@ -96,9 +96,15 @@ a.auth__link:hover {
     margin-top: 1.5rem
 }
 
+.list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem;
+}
+
 .list__item {
     display: block;
-    margin-top: 1rem;
     padding: 0.8em;
 
     border: 1px solid var(--border-bg);

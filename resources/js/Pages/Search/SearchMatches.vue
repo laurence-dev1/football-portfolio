@@ -72,12 +72,12 @@ export default defineComponent({
         </section>
 
         <div v-if="recent3Matches.length > 0">
-            <template v-for="match in recent3Matches">
-                <MatchItem :matchData="match" />
-            </template>
+            <div class="list mt-1">
+                <MatchItem v-for="match in recent3Matches" :matchData="match" />
+            </div>
         </div>
         <LoadingIcon v-else-if="matchLoadingState.initialList === true" />
-        <div v-else class="list__item">
+        <div v-else class="list__item mt-1">
             <p>No matches found.</p>
         </div>
 
@@ -102,12 +102,12 @@ export default defineComponent({
 
         <section>
             <LoadingIcon v-if="matchLoadingState.filteredList === true" />
-            <div v-if="matchResponses.filteredList.length > 0">
+            <div class="list mt-1" v-if="matchResponses.filteredList.length > 0">
                 <template v-for="match in matchResponses.filteredList">
                     <MatchItem :matchData="match" />
                 </template>
             </div>
-            <div v-else class="list__item">
+            <div v-else class="list__item mt-1">
                 <p>Try searching for matches using the filters above.</p>
             </div>
         </section>

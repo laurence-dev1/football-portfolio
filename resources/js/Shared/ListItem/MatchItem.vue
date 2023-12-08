@@ -1,9 +1,7 @@
 <script>
-import {defineComponent} from 'vue'
-import {Link, router} from "@inertiajs/vue3";
+import { defineComponent } from 'vue'
+import { Link, router } from "@inertiajs/vue3";
 import date from "../../mixins/date.js";
-import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
-import {mapState} from "pinia";
 import BookmarkButton from "@/Shared/Util/BookmarkButton.vue";
 
 export default defineComponent({
@@ -19,14 +17,8 @@ export default defineComponent({
     },
 
     computed: {
-        ...mapState(useMatchBookmarkRequestStore, ['matchBookmarks']),
-
         formattedDate() {
             return date.formatUtcDate(this.matchData.utcDate);
-        },
-
-        isBookmarked() {
-             return this.matchBookmarks.some(matchBookmark => matchBookmark.id === this.matchData.id);
         }
     },
 
@@ -74,7 +66,7 @@ export default defineComponent({
             <span class="nowrap">{{ formattedDate }}</span>
         </div>
         <div v-if="$page.props.auth.user !== null" class="match__data w-15p" ref="bookmarkDiv">
-            <BookmarkButton type="match" :dataToBookmark="matchData" :isBookmarked="isBookmarked" />
+            <BookmarkButton type="match" :dataToBookmark="matchData" />
         </div>
     </div>
 </template>
