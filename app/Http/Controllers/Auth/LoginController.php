@@ -27,6 +27,7 @@ class LoginController extends Controller
     /**
      * store
      * Login User
+     * @param LoginRequest $credentials
      * @return RedirectResponse
      */
     public function store(LoginRequest $credentials): RedirectResponse

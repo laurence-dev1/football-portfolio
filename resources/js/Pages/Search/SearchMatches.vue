@@ -3,11 +3,12 @@ import { defineComponent } from 'vue'
 import { Head, Link, useRemember } from "@inertiajs/vue3";
 import CompetitionSelect from "@/Shared/SearchFilters/CompetitionSelect.vue";
 import DateRangePicker from "@/Shared/SearchFilters/DateRangePicker.vue";
-import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 
 import { mapActions, mapState } from "pinia";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
+import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
 
 export default defineComponent({
     name: "SearchMatches",
@@ -40,16 +41,19 @@ export default defineComponent({
     methods: {
         ...mapActions(useMatchListRequestStore, {
             matchReqInitialList: 'requestInitialList',
-            matchReqFilteredList: 'requestFilteredLlist'
+            matchReqFilteredList: 'requestFilteredList'
         }),
+
+        ...mapActions(useMatchBookmarkRequestStore, { matchRequestBookmarks: 'requestBookmarks' }),
 
         filterMatches() {
             this.matchReqFilteredList(this.filters);
         }
     },
 
-    async mounted() {
-        await this.matchReqInitialList();
+    mounted() {
+        this.matchRequestBookmarks();
+        this.matchReqInitialList();
     }
 })
 </script>
@@ -64,16 +68,16 @@ export default defineComponent({
         <p class="text_info">API Features does not allow search (only filters), and date filter only allow 10-Day Difference.</p>
 
         <section class="main__group">
-            <h4>Recent Matches (Last 3 Matches, 3-Day Duration)</h4>
+            <h4>Recent/Upcoming Matches (From the last 3 days)</h4>
         </section>
 
         <div v-if="recent3Matches.length > 0">
-            <template v-for="match in recent3Matches">
-                <MatchItem :matchData="match" />
-            </template>
+            <div class="list mt-1">
+                <MatchItem v-for="match in recent3Matches" :matchData="match" />
+            </div>
         </div>
         <LoadingIcon v-else-if="matchLoadingState.initialList === true" />
-        <div v-else class="list__item">
+        <div v-else class="list__item mt-1">
             <p>No matches found.</p>
         </div>
 
@@ -98,12 +102,12 @@ export default defineComponent({
 
         <section>
             <LoadingIcon v-if="matchLoadingState.filteredList === true" />
-            <div v-if="matchResponses.filteredList.length > 0">
+            <div class="list mt-1" v-if="matchResponses.filteredList.length > 0">
                 <template v-for="match in matchResponses.filteredList">
                     <MatchItem :matchData="match" />
                 </template>
             </div>
-            <div v-else class="list__item">
+            <div v-else class="list__item mt-1">
                 <p>Try searching for matches using the filters above.</p>
             </div>
         </section>

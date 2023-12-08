@@ -1,5 +1,6 @@
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
 import axios from "axios";
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export const useMatchListRequestStore = defineStore('matchListRequest', {
     state() {
@@ -17,12 +18,22 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
     },
 
     getters: {
+        /**
+         * recent3Matches
+         * Retrieve 3 latest matches
+         * @returns {*[]}
+         */
         recent3Matches() {
             return this.responses.initialList.slice(0, 3);
         }
     },
 
     actions: {
+        /**
+         * requestInitialList
+         * Request recent matches
+         * @returns {Promise<void>}
+         */
         async requestInitialList() {
             if (this.responses.initialList.length > 0) {
                 return;
@@ -34,14 +45,22 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
                 this.responses.initialList = response.data.data
 
             } catch (error) {
-                alert('Something went wrong, kindly refresh the page to try again.');
+                useMessageStore().$patch({
+                    errorMessages: { exception: 'Something went wrong, kindly refresh the page to try again.' }
+                });
 
             } finally {
                 this.loadingState.initialList = false;
             }
         },
 
-        async requestFilteredLlist(filters) {
+        /**
+         * requestFilteredList
+         * Do Request filter results
+         * @param filters
+         * @returns {Promise<void>}
+         */
+        async requestFilteredList(filters) {
             this.loadingState.filteredList = true;
 
             try {
@@ -49,7 +68,9 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
                 let filteredList = response.data.data;
 
                 if (filteredList.length === 0) {
-                    return alert('No match found with the filter, try other.');
+                    useMessageStore().$patch({
+                        errorMessages: { exception: 'No match found with the filter, try other.' }
+                    });
                 }
 
                 this.responses.filteredList = filteredList;
@@ -62,11 +83,15 @@ export const useMatchListRequestStore = defineStore('matchListRequest', {
                         errorMessages.push(errorBag.errors[item]);
                     }
 
-                    alert(errorMessages.join("\n"));
+                    errorMessages.flat(Infinity).forEach(function (message, index)  {
+                        useMessageStore().errorMessages[index] = message;
+                    })
                     return;
                 }
 
-                alert('Something went wrong, kindly refresh the page before trying again.');
+                useMessageStore().$patch({
+                    errorMessages: { exception: 'Something went wrong, kindly refresh the page before trying again.' }
+                });
 
             } finally {
                 this.loadingState.filteredList = false;

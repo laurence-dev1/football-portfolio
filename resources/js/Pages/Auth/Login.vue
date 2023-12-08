@@ -1,11 +1,13 @@
 <script>
 import { defineComponent } from 'vue'
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import PlayerIcon from "@/Shared/Util/PlayerIcon.vue";
-import LockIcon from "@/Shared/Util/LockIcon.vue";
-import LoadingIcon from "@/Shared/Util/LoadingIcon.vue";
+import PlayerIcon from "@/Shared/Util/Icons/PlayerIcon.vue";
+import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import AuthLayout from "@/Shared/AuthLayout.vue";
 import Layout from "@/Shared/Layout.vue";
+import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export default defineComponent({
     name: "Login",
@@ -24,11 +26,20 @@ export default defineComponent({
     methods: {
         doLogin() {
             if (this.loginForm.username === '' || this.loginForm.password === '') {
-                return this.$page.props.errors.username = 'Fill out the form.';
+                return useMessageStore().$patch({
+                    errorMessages: { username: 'Fill out the form.' }
+                });
             }
 
             this.loginForm.post('/login', { preserveScroll: true });
         }
+    },
+
+    mounted() {
+        // reset bookmarks store so that in case of coming from logging out,
+        // the bookmarks of previous user will not persist on next one
+        // (provided that account switching is within same client)
+        useMatchBookmarkRequestStore().$reset();
     }
 })
 </script>

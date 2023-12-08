@@ -4,8 +4,9 @@ import { Head, Link } from "@inertiajs/vue3";
 import CardMatchDetails from "@/Shared/Cards/Match/CardMatchDetails.vue";
 import CardMatchStats from "@/Shared/Cards/Match/CardMatchStats.vue";
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
-import {mapActions, mapState} from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
+import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
 
 export default defineComponent({
     name: "MatchDetails",
@@ -23,10 +24,12 @@ export default defineComponent({
     },
 
     methods: {
-        ...mapActions(useMatchListRequestStore, { matchReqInitialList: 'requestInitialList' })
+        ...mapActions(useMatchListRequestStore, { matchReqInitialList: 'requestInitialList' }),
+        ...mapActions(useMatchBookmarkRequestStore, { matchRequestBookmarks: 'requestBookmarks' })
     },
 
     mounted() {
+        this.matchRequestBookmarks();
         this.matchReqInitialList();
     }
 })
@@ -53,9 +56,10 @@ export default defineComponent({
 
         <div class="recent_matches">
             <h2>Check out other recent matches!</h2>
-            <template v-for="match in recentMatches">
-                <MatchItem :matchData="match" :do-preserve-scroll="false" />
-            </template>
+            <div class="list mt-1">
+                <MatchItem v-for="match in recentMatches"
+                    :matchData="match" :do-preserve-scroll="false" />
+            </div>
         </div>
     </div>
 </template>
