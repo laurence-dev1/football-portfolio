@@ -21,13 +21,13 @@
     opacity: 0;
 }
 
-.errorDisplay-enter-active,
-.errorDisplay-leave-active {
+.msgDisplay-enter-active,
+.msgDisplay-leave-active {
     animation-name: shake;
     animation-duration: 0.3s;
 }
 
-.errorDisplay-leave-active {
+.msgDisplay-leave-active {
     animation-direction: reverse;
 }
 

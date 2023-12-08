@@ -2,11 +2,14 @@
 import {defineComponent} from 'vue'
 import { Link } from "@inertiajs/vue3";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
+import { useAuthStore } from "@/store/useAuthStore.js";
+import { useMessageStore } from "@/store/useMessageStore.js";
 import ErrorCard from "@/Shared/Util/ErrorCard.vue";
+import SuccessCard from "@/Shared/Util/SuccessCard.vue";
 
 export default defineComponent({
     name: "Layout",
-    components: { ErrorCard, Link },
+    components: { SuccessCard, ErrorCard, Link },
     data() {
         return {
             navLinks: ['Matches', 'Competitions', 'Teams', 'Persons'],
@@ -34,6 +37,31 @@ export default defineComponent({
             // when navigating via navbar, used (if any) search filters are not persisted,
             // with this, for ui consistency, the lists from store will be reset
             stores[type].$reset();
+        }
+    },
+
+    beforeMount() {
+        // in case of page reload
+        useAuthStore().$patch({ isAuthenticated: this.$page.props.auth.user !== null })
+    },
+
+    watch: {
+        // watch inertia's $page.props.auth.user (from shared)
+        // can change when logging out/in
+        '$page.props.auth.user': {
+            handler(user) {
+                useAuthStore().$patch({ isAuthenticated: user !== null })
+            },
+            deep: true
+        },
+
+        // watch inertia's $page.props.errors (from shared)
+        // feed the value to useMessageStore() to be accessed by <ErrorCard>
+        '$page.props.errors': {
+            handler(errors) {
+                useMessageStore().$patch({ errorMessages: errors })
+            },
+            deep: true
         }
     }
 })
@@ -79,6 +107,7 @@ export default defineComponent({
     <main class="main">
         <slot></slot>
 
+        <SuccessCard />
         <ErrorCard />
     </main>
 

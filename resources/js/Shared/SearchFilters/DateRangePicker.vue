@@ -1,5 +1,6 @@
 <script>
-import {defineComponent, onUpdated} from 'vue'
+import { defineComponent } from 'vue'
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export default defineComponent({
     name: "DateRangePicker",
@@ -25,11 +26,15 @@ export default defineComponent({
                 let dateTo = new Date(this.dateToSelect);
 
                 if (dateFrom > dateTo) {
-                    this.$page.props.errors.date = '"From Date" should be less than "To Date"';
+                    useMessageStore().$patch({
+                        errorMessages: { date: '"From Date" should be less than "To Date"' }
+                    });
                     this[target.id + 'Select'] = '';
 
                 } else if (new Date(dateTo.getTime() - dateFrom.getTime()).getUTCDate() > 10) {
-                    this.$page.props.errors.date = 'Date difference should be less than or equal to 10 days.';
+                    useMessageStore().$patch({
+                        errorMessages: { date: 'Date difference should be less than or equal to 10 days.' }
+                    });
                     this[target.id + 'Select'] = '';
                 }
             }

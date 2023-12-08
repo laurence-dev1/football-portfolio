@@ -7,6 +7,7 @@ import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import AuthLayout from "@/Shared/AuthLayout.vue";
 import Layout from "@/Shared/Layout.vue";
 import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export default defineComponent({
     name: "Login",
@@ -25,7 +26,9 @@ export default defineComponent({
     methods: {
         doLogin() {
             if (this.loginForm.username === '' || this.loginForm.password === '') {
-                return this.$page.props.errors.username = 'Fill out the form.';
+                return useMessageStore().$patch({
+                    errorMessages: { username: 'Fill out the form.' }
+                });
             }
 
             this.loginForm.post('/login', { preserveScroll: true });

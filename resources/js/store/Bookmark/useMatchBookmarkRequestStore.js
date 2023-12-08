@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { useAuthStore } from "@/store/useAuthStore.js";
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', {
     state() {
@@ -20,7 +22,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
          * @returns {Promise<void>}
          */
         async requestBookmarks() {
-            if (this.matchBookmarks.length > 0) {
+            if (this.matchBookmarks.length > 0 || useAuthStore().isAuthenticated === false) {
                 return;
             }
 
@@ -31,7 +33,9 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
                 this.matchBookmarks = response.data.data;
 
             } catch (error) {
-                alert('Something went wrong in retrieving your bookmarked matches, kindly refresh the page to try again.');
+                useMessageStore().$patch({
+                    errorMessages: { exception: 'Something went wrong in retrieving your bookmarked matches, kindly refresh the page to try again.' }
+                });
 
             } finally {
                 this.isListLoading = false;
@@ -50,10 +54,14 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
             try {
                 await axios.post('/bookmarks/matches', {matchId: matchData.id});
                 this.matchBookmarks.unshift(matchData);
-                alert('Match bookmark added!');
+                useMessageStore().$patch({
+                    successMessages: { success: 'Match bookmark added!' }
+                });
 
             } catch (error) {
-                alert(error.response.data.data.message);
+                useMessageStore().$patch({
+                    errorMessages: { exception: error.response.data.data.message }
+                });
 
             } finally {
                 delete this.isToggleLoading[matchData.id]
@@ -70,16 +78,20 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
             if (confirm('Are you sure you want to remove the bookmark?') === false) {
                 return;
             }
-            
+
             this.isToggleLoading[matchData.id] = true;
 
             try {
                 await axios.delete('/bookmarks/matches', {data: {matchId: matchData.id}});
                 this.matchBookmarks = this.matchBookmarks.filter(bookmark => bookmark.id !== matchData.id);
-                alert('Match bookmark removed!');
+                useMessageStore().$patch({
+                    successMessages: { success: 'Match bookmark removed!' }
+                });
 
             } catch (error) {
-                alert(error.response.data.data.message);
+                useMessageStore().$patch({
+                    errorMessages: { exception: error.response.data.data.message }
+                });
 
             } finally {
                 delete this.isToggleLoading[matchData.id]

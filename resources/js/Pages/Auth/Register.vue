@@ -1,11 +1,12 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import Layout from "@/Shared/Layout.vue";
 import AuthLayout from "@/Shared/AuthLayout.vue";
 import {Head, Link, useForm} from "@inertiajs/vue3";
 import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
 import PlayerIcon from "@/Shared/Util/Icons/PlayerIcon.vue";
 import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
+import { useMessageStore } from "@/store/useMessageStore.js";
 
 export default defineComponent({
     name: "Register",
@@ -27,7 +28,9 @@ export default defineComponent({
         doRegister() {
             if (this.registerForm.name === '' || this.registerForm.email === ''
                 || this.registerForm.username === '' || this.registerForm.password === '') {
-                return this.$page.props.errors.name = 'Fill out the form.';
+                return useMessageStore().$patch({
+                    errorMessages: { name: 'Fill out the form.' }
+                });
             }
 
             this.registerForm.post('/register', { preserveScroll: true })
