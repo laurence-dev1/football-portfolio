@@ -1,10 +1,14 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest', {
+export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', {
     state() {
         return {
-            isLoading: false,
+            isListLoading: false,
+            // isToggleLoading will serve as loadingState for when adding/removing bookmark
+            // will be saved as an object { id: bool } to prevent other instances of <BookmarkButton> to update
+            // added keys will be deleted after request so that keys will not stack when toggling multiple bookmarks
+            isToggleLoading: {},
             matchBookmarks: []
         }
     },
@@ -20,7 +24,7 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
                 return;
             }
 
-            this.isLoading = true;
+            this.isListLoading = true;
 
             try {
                 let response = await axios.get('/bookmarks/matches');
@@ -30,18 +34,18 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
                 alert('Something went wrong in retrieving your bookmarked matches, kindly refresh the page to try again.');
 
             } finally {
-                this.isLoading = false;
+                this.isListLoading = false;
             }
         },
 
         /**
          * addBookmark
-         * Do request of adding bookmakr
+         * Do request of adding bookmark
          * @param matchData
          * @returns {Promise<void>}
          */
         async addBookmark(matchData) {
-            this.isLoading = true;
+            this.isToggleLoading[matchData.id] = true;
 
             try {
                 await axios.post('/bookmarks/matches', {matchId: matchData.id});
@@ -52,7 +56,7 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
                 alert(error.response.data.data.message);
 
             } finally {
-                this.isLoading = false;
+                delete this.isToggleLoading[matchData.id]
             }
         },
 
@@ -63,7 +67,11 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
          * @returns {Promise<void>}
          */
         async removeBookmark(matchData) {
-            this.isLoading = true;
+            if (confirm('Are you sure you want to remove the bookmark?') === false) {
+                return;
+            }
+            
+            this.isToggleLoading[matchData.id] = true;
 
             try {
                 await axios.delete('/bookmarks/matches', {data: {matchId: matchData.id}});
@@ -74,7 +82,7 @@ export const useMatchDashboardRequestStore = defineStore('matchDashboardRequest'
                 alert(error.response.data.data.message);
 
             } finally {
-                this.isLoading = false;
+                delete this.isToggleLoading[matchData.id]
             }
         }
     }

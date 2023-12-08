@@ -2,7 +2,7 @@
 import {defineComponent} from 'vue'
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 import {mapActions, mapState} from "pinia";
-import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
+import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
 import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import { Link } from "@inertiajs/vue3";
 
@@ -10,8 +10,8 @@ export default defineComponent({
     name: "MatchDashboard",
     components: { LoadingIcon, MatchItem, Link },
 
-    computed: { ...mapState(useMatchDashboardRequestStore, ['isLoading', 'matchBookmarks']) },
-    methods: { ...mapActions(useMatchDashboardRequestStore, ['requestBookmarks']) },
+    computed: { ...mapState(useMatchBookmarkRequestStore, ['isListLoading', 'matchBookmarks']) },
+    methods: { ...mapActions(useMatchBookmarkRequestStore, ['requestBookmarks']) },
 
     async mounted() {
         await this.requestBookmarks();
@@ -21,9 +21,9 @@ export default defineComponent({
 
 <template>
     <div>
-        <LoadingIcon v-if="isLoading === true" />
+        <LoadingIcon margin="1rem" v-if="isListLoading === true" />
 
-        <div v-if="isLoading === false && matchBookmarks.length === 0"
+        <div v-if="isListLoading === false && matchBookmarks.length === 0"
              class="text-center list__item">
             No bookmarked matches, check out some <Link href="/search/matches">here</Link>.
         </div>

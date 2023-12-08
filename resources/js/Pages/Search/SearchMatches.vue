@@ -8,7 +8,7 @@ import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 
 import { mapActions, mapState } from "pinia";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
-import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
+import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
 
 export default defineComponent({
     name: "SearchMatches",
@@ -44,7 +44,7 @@ export default defineComponent({
             matchReqFilteredList: 'requestFilteredLlist'
         }),
 
-        ...mapActions(useMatchDashboardRequestStore, { matchRequestBookmarks: 'requestBookmarks' }),
+        ...mapActions(useMatchBookmarkRequestStore, { matchRequestBookmarks: 'requestBookmarks' }),
 
         filterMatches() {
             this.matchReqFilteredList(this.filters);

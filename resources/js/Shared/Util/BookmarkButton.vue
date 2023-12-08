@@ -2,12 +2,12 @@
 import {defineComponent} from 'vue'
 import BookmarkCheckIcon from "@/Shared/Util/Icons/BookmarkCheckIcon.vue";
 import BookmarkIcon from "@/Shared/Util/Icons/BookmarkIcon.vue";
-import {mapActions} from "pinia";
-import {useMatchDashboardRequestStore} from "@/store/Dashboard/useMatchDashboardRequestStore.js";
+import {useMatchBookmarkRequestStore} from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 
 export default defineComponent({
     name: "BookmarkButton",
-    components: {BookmarkIcon, BookmarkCheckIcon},
+    components: {LoadingIcon, BookmarkIcon, BookmarkCheckIcon},
     props: {
         type: {
             required: true,
@@ -25,15 +25,24 @@ export default defineComponent({
         }
     },
 
-    methods: {
-        ...mapActions(useMatchDashboardRequestStore, {
-            matchAddBookmark: 'addBookmark',
-            matchDelBookmark: 'removeBookmark'
-        }),
+    data() {
+        return {
+            bookmarkStore: {
+                match: useMatchBookmarkRequestStore()
+            }
+        }
+    },
 
+    computed: {
+        isToggleLoading() {
+            return this.bookmarkStore[this.type].isToggleLoading[this.dataToBookmark.id];
+        }
+    },
+
+    methods: {
         toggleBookmark() {
-            const storeMethod = (this.isBookmarked === true) ? `${this.type}DelBookmark` : `${this.type}AddBookmark`;
-            this[storeMethod](this.dataToBookmark);
+            const action = (this.isBookmarked === true) ? 'removeBookmark' : 'addBookmark'
+            this.bookmarkStore[this.type][action](this.dataToBookmark);
         }
     }
 })
@@ -42,7 +51,8 @@ export default defineComponent({
 <template>
     <button class="btn" @click="toggleBookmark">
         <Transition name="fade" mode="out-in">
-            <BookmarkCheckIcon v-if="isBookmarked === true" />
+            <LoadingIcon margin="0" width="20" height="20" v-if="isToggleLoading === true" />
+            <BookmarkCheckIcon v-else-if="isBookmarked === true" />
             <BookmarkIcon v-else />
         </Transition>
     </button>

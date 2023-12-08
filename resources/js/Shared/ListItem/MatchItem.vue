@@ -2,7 +2,7 @@
 import {defineComponent} from 'vue'
 import {Link, router} from "@inertiajs/vue3";
 import date from "../../mixins/date.js";
-import { useMatchDashboardRequestStore } from "@/store/Dashboard/useMatchDashboardRequestStore.js";
+import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
 import {mapState} from "pinia";
 import BookmarkButton from "@/Shared/Util/BookmarkButton.vue";
 
@@ -19,7 +19,7 @@ export default defineComponent({
     },
 
     computed: {
-        ...mapState(useMatchDashboardRequestStore, ['matchBookmarks']),
+        ...mapState(useMatchBookmarkRequestStore, ['matchBookmarks']),
 
         formattedDate() {
             return date.formatUtcDate(this.matchData.utcDate);
