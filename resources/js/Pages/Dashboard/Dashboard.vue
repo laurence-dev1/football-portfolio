@@ -32,7 +32,7 @@ export default defineComponent({
         </div>
 
         <div class="contents">
-            <Transition name="fade" mode="in-out">
+            <Transition name="rollDown" mode="out-in">
                 <MatchDashboard v-show="activeTab === 'Matches'" />
             </Transition>
         </div>
@@ -60,7 +60,7 @@ export default defineComponent({
     }
 
     .db__tabs button:hover {
-        border-bottom: 2px solid var(--second-header-bg);
+        border-bottom: 2px solid var(--btn-active-bg);
     }
 
     button.active_tab {

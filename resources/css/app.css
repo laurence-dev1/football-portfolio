@@ -4,92 +4,36 @@
 @import "common.css";
 @import "animations.css";
 
-.header {
-    width: 100%;
-
-    background: var(--header-bg);
-    color: var(--btn-text-color);
-    box-shadow: 0 0 10px #333;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-
-    position: absolute;
-    top: 0;
-}
-
-.header__title {
-    padding: 0.4em;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.1em;
-}
-
-.header__title img {
-    width: 45px;
-}
-
-.header__nav {
-    padding: 1rem;
-    background-color: var(--second-header-bg);
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-}
-
-.header a {
-    padding: 0.6em;
-    border-radius: var(--border-radius);
-
-    transition-property: background-color, color, border;
-    transition-duration: 0.3s;
-}
-
-.header a:any-link {
-    color: var(--btn-text-color);
-    text-decoration: none;
-}
-
-.header a:hover, .header a:active, .header a:focus {
-    background-color: var(--header-bg);
-    color: var(--btn-text-color);
-}
-
-.header__dashboard a {
-    margin-right: 0.7em;
-}
-
-.header__browse p {
-    display: none;
-}
-
-.header__links {
-    list-style-type: none;
-    display: flex;
-    justify-content: space-evenly;
-    gap: 0.6rem;
-}
-
-a.auth__link {
-    background-color: var(--btn-bg);
-    font-weight: bold;
-}
-
-a.auth__link:hover {
-    background-color: var(--btn-hover-bg);
-}
-
-.btn_logout {
-    border: none;
-    background: transparent;
+a.nav__a:any-link,
+.button__logout {
     color: var(--body-bg);
-    cursor: pointer;
+    text-decoration: none;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+
+    padding: 0.3em 0.6em;
+    border-radius: var(--border-radius);
+}
+
+.button__logout {
+    background-color: transparent;
+    border: none;
+    font-size: 1em;
+
+    text-align: left;
+}
+
+a.nav__a:any-link:hover,
+a.nav__a:any-link:focus-visible,
+.button__logout:hover,
+.button__logout:focus {
+    background-color: var(--btn-hover-bg);
+    outline: none;
 }
 
 .main {
     width: 75%;
-    margin: 8rem auto 4rem auto;
+    margin: 5rem auto 4rem auto;
 }
 
 .main__group {
@@ -142,7 +86,7 @@ div.list__item:hover {
 }
 
 .button__more:hover {
-    background-color: var(--second-header-bg);
+    background-color: var(--btn-active-bg);
     color: var(--btn-text-color);
 }
 
@@ -197,35 +141,6 @@ div.list__item:hover {
 }
 
 @media screen and (max-width: 580px) {
-    .header {
-        font-size: 0.7rem;
-    }
-
-    .header__nav {
-        font-size: 0.8rem;
-        padding: 1.5em;
-    }
-
-    .header__browse {
-        flex-grow: 1;
-    }
-
-    .header__browse p {
-        display: block;
-    }
-
-    .header__links {
-        display: none;
-        margin-top: 1em;
-        /* display: flex; */
-        flex-direction: column;
-        gap: 1em;
-    }
-
-    .header a {
-        padding: 0.7em;
-    }
-
     .main {
         width: 90%;
         margin-bottom: 6rem;
@@ -235,7 +150,7 @@ div.list__item:hover {
 @media screen and (min-width: 581px) {
     .main {
         width: 85%;
-        margin-top: 8rem;
+        margin-top: 5rem;
         margin-bottom: 6rem;
     }
 }

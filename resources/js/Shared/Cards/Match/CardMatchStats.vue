@@ -49,13 +49,13 @@ export default defineComponent({
         </div>
         <div class="stats__item flex" ref="full_score">
             <img :src="matchDetails.homeTeam.crest" alt="">
-            <Transition name="fade" mode="out-in">
+            <Transition name="rollDown" mode="out-in">
                 <span :key="homeScore" class="score">
                     {{ homeScore }}
                 </span>
             </Transition>
             -
-            <Transition name="fade" mode="out-in">
+            <Transition name="rollDown" mode="out-in">
                 <span :key="awayScore" class="score">
                     {{ awayScore }}
                 </span>
