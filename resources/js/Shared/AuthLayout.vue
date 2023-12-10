@@ -38,7 +38,7 @@ export default defineComponent({
 <style scoped>
     section.login__banner {
         width: 60%;
-        margin: 10rem auto 0 auto;
+        margin: 7rem auto 0 auto;
     }
 
     .login__banner {

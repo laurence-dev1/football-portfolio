@@ -7,15 +7,19 @@ import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 import { mapActions, mapState } from "pinia";
 import { useMatchListRequestStore } from "@/store/ListRequest/useMatchListRequestStore.js";
 import { useMatchBookmarkRequestStore } from "@/store/Bookmark/useMatchBookmarkRequestStore.js";
+import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 
 export default defineComponent({
     name: "MatchDetails",
-    components: {MatchItem, CardMatchDetails, CardMatchStats, Head, Link },
+    components: {LoadingIcon, MatchItem, CardMatchDetails, CardMatchStats, Head, Link },
     props: { matchDetails: Object },
     computed: {
-        ...mapState(useMatchListRequestStore, { matchResponses: 'responses' }),
+        ...mapState(useMatchListRequestStore, {
+            matchList: 'responses',
+            matchLoadingState: 'loadingState'
+        }),
         recentMatches() {
-            return this.matchResponses.initialList.filter(match => match.id !== this.matchDetails.id);
+            return this.matchList.initialList.filter(match => match.id !== this.matchDetails.id);
         },
 
         resourceFound() {
@@ -56,9 +60,17 @@ export default defineComponent({
 
         <div class="recent_matches">
             <h2>Check out other recent matches!</h2>
-            <div class="list mt-1">
-                <MatchItem v-for="match in recentMatches"
-                    :matchData="match" :do-preserve-scroll="false" />
+            <div class="list__card">
+                <Transition name="fade" mode="out-in">
+                    <LoadingIcon v-if="matchLoadingState.initialList === true" />
+                    <div class="list" v-else-if="recentMatches.length > 0">
+                        <MatchItem v-for="match in recentMatches"
+                                   :matchData="match" :do-preserve-scroll="false" />
+                    </div>
+                    <div v-else class="list__item">
+                        <p>No matches found.</p>
+                    </div>
+                </Transition>
             </div>
         </div>
     </div>

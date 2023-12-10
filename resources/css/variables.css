@@ -1,13 +1,13 @@
 :root {
     --body-bg: whitesmoke;
     --header-bg: #071013;
-    --second-header-bg: #333333;
     --primary-bg: #E2E7E4;
     --primary-hover-bg: #C5D0C9;
     --btn-bg: var(--header-bg);
-    --btn-hover-bg: #013211;
+    --btn-hover-bg: #333333;
+    --btn-active-bg: #013211;
     --btn-text-color: whitesmoke;
-    --btn-disable-bg: #B80C09;
+    --btn-disable-bg: #0b0e2f;
     --border-bg: #333333;
     --border-radius: 10px
 }
