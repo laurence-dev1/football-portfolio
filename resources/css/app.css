@@ -49,7 +49,7 @@ a.nav__a:any-link:focus-visible,
 
 .list__item {
     display: block;
-    padding: 0.8em;
+    padding: 0.4em;
 
     border: 1px solid var(--border-bg);
     border-radius: var(--border-radius);

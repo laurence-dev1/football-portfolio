@@ -71,7 +71,7 @@ export default defineComponent({
                        autocomplete="current-password">
             </div>
 
-            <LoadingIcon v-if="loginForm.processing === true" />
+            <LoadingIcon class="mt-1" v-if="loginForm.processing === true" />
             <button type="submit" class="btn btn_common" :disabled="loginForm.processing === true">
                 {{ loginForm.processing === true ? 'Please wait...' : 'Login' }}
             </button>

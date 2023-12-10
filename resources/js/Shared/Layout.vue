@@ -48,7 +48,9 @@ export default defineComponent({
             const burgerIcon = this.$refs.burgerIcon;
             const userIcon = this.$refs.userIcon;
             if (burgerIcon.contains(event.target) === false
-                && userIcon.contains(event.target) === false) {
+                && userIcon.contains(event.target) === false
+                && this.$refs.navCommon.contains(event.target) === false
+                && this.$refs.navAuth.contains(event.target) === false) {
 
                 this.showNavLinks = false;
                 this.showNavUsers = false;
@@ -145,13 +147,13 @@ export default defineComponent({
 
     <Transition name="rollDown">
         <!-- v-show and :key is added together when toggling transition to avoid flickering when on "leave" transition state (??) -->
-        <nav v-show="showNavLinks === true" :key="showNavLinks" class="nav__common">
+        <nav v-show="showNavLinks === true" :key="showNavLinks" class="nav__common" ref="navCommon">
             <NavLinks />
         </nav>
     </Transition>
 
     <Transition name="rollDown">
-        <nav v-show="showNavUsers === true" :key="showNavUsers" class="nav__auth">
+        <nav v-show="showNavUsers === true" :key="showNavUsers" class="nav__auth" ref="navAuth">
             <Link v-if="hasUser === true" class="nav__a" href="/settings">User Settings</Link>
             <Link v-else class="nav__a" href="/login">Login</Link>
 
