@@ -3,10 +3,13 @@ import { defineComponent } from 'vue'
 import { Head } from '@inertiajs/vue3'
 import MatchItem from "@/Shared/ListItem/MatchItem.vue";
 import MatchDashboard from "@/Pages/Dashboard/MatchDashboard.vue";
+import CompetitionDashboard from "@/Pages/Dashboard/CompetitionDashboard.vue";
+import TeamDashboard from "@/Pages/Dashboard/TeamDashboard.vue";
+import PersonDashboard from "@/Pages/Dashboard/PersonDashboard.vue";
 
 export default defineComponent({
-    name: "Dashboard",
-    components: { MatchDashboard, MatchItem, Head },
+    name: "MainDashboard",
+    components: { PersonDashboard, TeamDashboard, CompetitionDashboard, MatchDashboard, MatchItem, Head },
     data() {
         return {
             bookmarkTabs: ['Matches', 'Competitions', 'Teams', 'Persons'],
@@ -66,7 +69,10 @@ export default defineComponent({
 
         <div class="list__card">
             <Transition name="fade" mode="out-in">
-                <MatchDashboard v-show="activeTab === 'Matches'" />
+                <CompetitionDashboard v-if="activeTab === 'Competitions'"/>
+                <TeamDashboard v-else-if="activeTab === 'Teams'" />
+                <PersonDashboard v-else-if="activeTab === 'Persons'" />
+                <MatchDashboard v-else />
             </Transition>
         </div>
     </div>
@@ -129,7 +135,7 @@ export default defineComponent({
     }
 
     .down.active {
-        transform: rotate(180deg) translate(-8px, 4px);
+        transform: rotate(540deg) translate(-8px, 4px);
     }
 
     .down div {
