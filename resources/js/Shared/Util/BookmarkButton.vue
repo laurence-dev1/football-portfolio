@@ -50,7 +50,7 @@ export default defineComponent({
 <template>
     <button class="btn" @click="toggleBookmark">
         <Transition name="rollDown" mode="out-in">
-            <LoadingIcon margin="0" width="20" height="20" v-if="isToggleLoading === true" />
+            <LoadingIcon width="20" height="20" v-if="isToggleLoading === true" />
             <BookmarkCheckIcon v-else-if="isBookmarked === true" />
             <BookmarkIcon v-else />
         </Transition>

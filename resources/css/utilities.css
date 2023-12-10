@@ -63,7 +63,8 @@
     background-color: var(--btn-bg);
 }
 
-.btn_common:hover {
+.btn_common:hover,
+.btn_common:focus-visible {
     border: 1px solid var(--border-bg);
     background-color: var(--btn-hover-bg);
     color: var(--btn-text-color);
@@ -89,4 +90,12 @@ p.text_info {
 
 .nowrap {
     white-space: nowrap;
+}
+
+.list__card {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 1em 0.5em;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 15px 8px #dddddd;
 }

@@ -26,7 +26,7 @@ a.nav__a:any-link,
 a.nav__a:any-link:hover,
 a.nav__a:any-link:focus-visible,
 .button__logout:hover,
-.button__logout:focus {
+.button__logout:focus-visible {
     background-color: var(--btn-hover-bg);
     outline: none;
 }
@@ -97,17 +97,6 @@ div.list__item:hover {
     gap: 1rem;
 
     position: relative;
-}
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #000;
-    color: var(--btn-text-color);
-    padding: 1em;
-
-    clear: both;
 }
 
 /* Forms */

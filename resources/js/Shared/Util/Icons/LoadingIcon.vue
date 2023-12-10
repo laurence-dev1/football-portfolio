@@ -5,14 +5,12 @@ export default defineComponent({
     name: "LoadingIcon",
     props: {
         width: { default: 50 },
-        height: { default: 50 },
-        margin: { default: '1rem auto 0 auto' }
+        height: { default: 50 }
     },
 
     mounted() {
         this.$refs.svg.style.width = this.width;
         this.$refs.svg.style.height = this.height;
-        this.$refs.svg.style.margin = this.margin;
     }
 })
 </script>

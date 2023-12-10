@@ -26,7 +26,7 @@ export default defineComponent({
 
 <template>
     <div>
-        <LoadingIcon margin="1rem" v-if="isListLoading === true" />
+        <LoadingIcon v-if="isListLoading === true" />
 
         <div v-if="isListLoading === false && matchBookmarks.length === 0"
              class="text-center list__item">

@@ -271,6 +271,18 @@ export default defineComponent({
         transition-duration: 0.2s;
     }
 
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #000;
+        color: var(--btn-text-color);
+        padding: 0.8em;
+        font-size: 0.7em;
+
+        clear: both;
+    }
+
     @media screen and (max-width: 860px) {
         .header__burger {
             display: block;

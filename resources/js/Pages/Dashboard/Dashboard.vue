@@ -31,8 +31,8 @@ export default defineComponent({
                     @click="activeTab = tab">{{ tab }}</button>
         </div>
 
-        <div class="contents">
-            <Transition name="rollDown" mode="out-in">
+        <div class="list__card">
+            <Transition name="fade" mode="out-in">
                 <MatchDashboard v-show="activeTab === 'Matches'" />
             </Transition>
         </div>
@@ -67,13 +67,5 @@ export default defineComponent({
         border-bottom: 2px solid var(--border-bg);
         font-weight: bolder;
         color: var(--btn-hover-bg);
-    }
-
-    div.contents {
-        margin-top: 0.4em;
-        width: 100%;
-        padding: 0.4em;
-        border-radius: var(--border-radius);
-        box-shadow: 0 0 15px 8px #dddddd;
     }
 </style>
