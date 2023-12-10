@@ -28,11 +28,11 @@ input[type=radio], input[type=checkbox] {
 }
 
 .card__error {
-    border: 3px solid var(--btn-disable-bg);
+    border: 3px solid #B80C09FF;
 }
 
 .card__success {
-    border: 3px solid var(--btn-hover-bg);
+    border: 3px solid var(--btn-active-bg);
 }
 
 .card__message {

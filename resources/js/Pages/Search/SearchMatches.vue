@@ -71,14 +71,18 @@ export default defineComponent({
             <h4>Recent/Upcoming Matches (From the last 3 days)</h4>
         </section>
 
-        <div v-if="recent3Matches.length > 0">
-            <div class="list mt-1">
-                <MatchItem v-for="match in recent3Matches" :matchData="match" />
-            </div>
-        </div>
-        <LoadingIcon v-else-if="matchLoadingState.initialList === true" />
-        <div v-else class="list__item mt-1">
-            <p>No matches found.</p>
+        <div class="list__card">
+            <Transition name="fade" mode="out-in">
+                <LoadingIcon v-if="matchLoadingState.initialList === true" />
+                <div v-else-if="recent3Matches.length > 0">
+                    <div class="list">
+                        <MatchItem v-for="match in recent3Matches" :matchData="match" />
+                    </div>
+                </div>
+                <div v-else class="list__item">
+                    <p>No matches found.</p>
+                </div>
+            </Transition>
         </div>
 
         <hr>
@@ -100,17 +104,19 @@ export default defineComponent({
 
         <CompetitionSelect v-model:selectedBag="filters.competitions" v-show="showCompetitionFilters" />
 
-        <section>
-            <LoadingIcon v-if="matchLoadingState.filteredList === true" />
-            <div class="list mt-1" v-if="matchResponses.filteredList.length > 0">
-                <template v-for="match in matchResponses.filteredList">
-                    <MatchItem :matchData="match" />
-                </template>
-            </div>
-            <div v-else class="list__item mt-1">
-                <p>Try searching for matches using the filters above.</p>
-            </div>
-        </section>
+        <div class="list__card mt-1">
+            <Transition name="fade" mode="out-in">
+                <LoadingIcon v-if="matchLoadingState.filteredList === true" />
+                <div class="list" v-else-if="matchResponses.filteredList.length > 0">
+                    <template v-for="match in matchResponses.filteredList">
+                        <MatchItem :matchData="match" />
+                    </template>
+                </div>
+                <div v-else class="list__item">
+                    <p>Try searching for matches using the filters above.</p>
+                </div>
+            </Transition>
+        </div>
     </div>
 
 </template>
