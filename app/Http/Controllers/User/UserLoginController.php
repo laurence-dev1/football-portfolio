@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\User\UserLoginRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class LoginController extends Controller
+class UserLoginController extends Controller
 {
 
     /**
@@ -21,16 +21,16 @@ class LoginController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('User/Login');
     }
 
     /**
      * store
      * Login User
-     * @param LoginRequest $credentials
+     * @param UserLoginRequest $credentials
      * @return RedirectResponse
      */
-    public function store(LoginRequest $credentials): RedirectResponse
+    public function store(UserLoginRequest $credentials): RedirectResponse
     {
         if (Auth::attempt($credentials->only(['username', 'password'])) === true) {
             request()->session()->regenerate();

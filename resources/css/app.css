@@ -4,8 +4,7 @@
 @import "common.css";
 @import "animations.css";
 
-a.nav__a:any-link,
-.button__logout {
+a.nav__a:any-link {
     color: var(--body-bg);
     text-decoration: none;
     transition-property: background-color;
@@ -15,12 +14,20 @@ a.nav__a:any-link,
     border-radius: var(--border-radius);
 }
 
+:is(.nav__common, .nav__auth) a.nav__a:any-link {
+    border-radius: 0;
+    padding: 1em;
+}
+
 .button__logout {
+    color: var(--body-bg);
     background-color: transparent;
     border: none;
     font-size: 1em;
+    padding: 1em;
 
     text-align: left;
+    cursor: pointer;
 }
 
 a.nav__a:any-link:hover,
@@ -99,36 +106,6 @@ div.list__item:hover {
     position: relative;
 }
 
-/* Forms */
-.div__icon-label-input {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-
-    margin-top: 1em;
-    border: 1px solid var(--border-bg);
-    border-radius: var(--border-radius);
-
-    padding-left: 0.4em;
-    background-color: #FFF;
-}
-
-.div__icon-label-input input {
-    padding: 0.7em;
-    border: none;
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
-}
-
-.div__icon-label-input input:focus {
-    outline: none;
-}
-
-.form__auth button[type=submit] {
-    width: 70%;
-    margin-top: 1em;
-}
-
 @media screen and (max-width: 580px) {
     .main {
         width: 90%;
@@ -143,3 +120,11 @@ div.list__item:hover {
         margin-bottom: 6rem;
     }
 }
+
+@media screen and (max-width: 860px) {
+    a.nav__a:any-link {
+        border-radius: 0;
+        padding: 0.8em;
+    }
+}
+

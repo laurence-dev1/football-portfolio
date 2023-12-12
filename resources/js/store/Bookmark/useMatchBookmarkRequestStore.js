@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { useAuthStore } from "@/store/useAuthStore.js";
+import { useUserAuthStore } from "@/store/User/useUserAuthStore.js";
 import { useMessageStore } from "@/store/useMessageStore.js";
 
 export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', {
@@ -22,7 +22,7 @@ export const useMatchBookmarkRequestStore = defineStore('matchBookmarkRequest', 
          * @returns {Promise<void>}
          */
         async requestBookmarks() {
-            if (this.bookmarks.length > 0 || useAuthStore().isAuthenticated === false) {
+            if (this.bookmarks.length > 0 || useUserAuthStore().isAuthenticated === false) {
                 return;
             }
 

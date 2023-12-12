@@ -40,7 +40,7 @@ export default defineComponent({
 <template>
     <Link v-if="hasUser === true"
           class="nav__a"
-          :class="{'nav-active' : $page.component === 'Dashboard/Dashboard'}"
+          :class="{'nav-active' : $page.component === 'Dashboard/MainDashboard'}"
           href="/">Dashboard</Link>
     <Link v-for="(navLink, index) in navLinks" :key="index"
         :href="navLink.url"
@@ -52,7 +52,5 @@ export default defineComponent({
 </template>
 
 <style scoped>
-    .nav-active {
-        background-color: var(--btn-active-bg);
-    }
+
 </style>

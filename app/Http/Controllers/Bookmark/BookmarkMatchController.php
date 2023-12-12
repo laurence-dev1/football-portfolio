@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Bookmarks;
+namespace App\Http\Controllers\Bookmark;
 
 use App\Http\Controllers\Controller;
 use App\Service\MatchService;
 use Illuminate\Http\JsonResponse;
 
-class MatchBookmarkController extends Controller
+class BookmarkMatchController extends Controller
 {
 
     /**

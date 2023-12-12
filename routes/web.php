@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Bookmarks\MatchBookmarkController;
+use App\Http\Controllers\User\UserLoginController;
+use App\Http\Controllers\User\UserRegisterController;
+use App\Http\Controllers\Bookmark\BookmarkMatchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Service\MatchController;
+use App\Http\Controllers\User\UserSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,21 +20,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::delete('/logout', [LoginController::class, 'destroy']);
+    Route::delete('/logout', [UserLoginController::class, 'destroy']);
 
     Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/settings', [UserSettingsController::class, 'index']);
+    Route::patch('/settings/info', [UserSettingsController::class, 'updateInfo']);
+    Route::patch('/settings/password', [UserSettingsController::class, 'updatePassword']);
 
-    Route::get('/bookmarks/matches', [MatchBookmarkController::class, 'index']);
-    Route::post('/bookmarks/matches', [MatchBookmarkController::class, 'store']);
-    Route::delete('/bookmarks/matches', [MatchBookmarkController::class, 'destroy']);
+    Route::get('/bookmarks/matches', [BookmarkMatchController::class, 'index']);
+    Route::post('/bookmarks/matches', [BookmarkMatchController::class, 'store']);
+    Route::delete('/bookmarks/matches', [BookmarkMatchController::class, 'destroy']);
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'store']);
+    Route::get('/login', [UserLoginController::class, 'index'])->name('login');
+    Route::post('/login', [UserLoginController::class, 'store']);
 
-    Route::get('/register', [RegisterController::class, 'index']);
-    Route::post('/register', [RegisterController::class, 'store']);
+    Route::get('/register', [UserRegisterController::class, 'index']);
+    Route::post('/register', [UserRegisterController::class, 'store']);
 });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -25,6 +26,20 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (QueryException $queryException) {
+            if (str_contains($queryException->getMessage(), 'SQLSTATE[HY000] [2002]') === false) {
+                return;
+            }
+
+            $message = 'Cannot connect to Database.';
+            return request()->isXmlHttpRequest() === true
+                ? response()->json([
+                    'status' => false,
+                    'data'   => ['message' => $message]
+                ], 500)
+                : response()->view('error', ['message' => $message]);
         });
     }
 }

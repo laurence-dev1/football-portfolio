@@ -7,10 +7,12 @@ import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
 import PlayerIcon from "@/Shared/Util/Icons/PlayerIcon.vue";
 import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 import { useMessageStore } from "@/store/useMessageStore.js";
+import UserIcon from "@/Shared/Util/Icons/UserIcon.vue";
+import MailIcon from "@/Shared/Util/Icons/MailIcon.vue";
 
 export default defineComponent({
     name: "Register",
-    components: {Link, LoadingIcon, PlayerIcon, LockIcon, Head },
+    components: { MailIcon, UserIcon, Link, LoadingIcon, PlayerIcon, LockIcon, Head },
     layout: [ Layout, AuthLayout ],
 
     data() {
@@ -47,7 +49,7 @@ export default defineComponent({
 
         <form @submit.prevent="doRegister" class="form__auth">
             <div class="div__icon-label-input">
-                <PlayerIcon />
+                <UserIcon />
                 <input type="text"
                        name="name"
                        id="name"
@@ -67,7 +69,7 @@ export default defineComponent({
             </div>
 
             <div class="div__icon-label-input">
-                <PlayerIcon />
+                <MailIcon />
                 <input type="text"
                        name="username"
                        id="username"
@@ -86,7 +88,7 @@ export default defineComponent({
                        autocomplete="current-password">
             </div>
 
-            <LoadingIcon v-if="registerForm.processing === true" />
+            <LoadingIcon class="mt-1" v-if="registerForm.processing === true" />
             <button type="submit" class="btn btn_common" :disabled="registerForm.processing === true">
                 {{ registerForm.processing === true ? 'Please wait...' : 'Register' }}
             </button>
