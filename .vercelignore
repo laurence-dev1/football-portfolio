@@ -1,0 +1,5 @@
+/vendor
+/public/build
+.idea
+dump.rdb
+football-portfolio.sql
