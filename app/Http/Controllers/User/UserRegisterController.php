@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\User\UserRegisterRequest;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisterController extends Controller
+class UserRegisterController extends Controller
 {
 
     /**
@@ -22,15 +22,15 @@ class RegisterController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('User/Register');
     }
 
     /**
      * store
-     * @param RegisterRequest $credentials
+     * @param UserRegisterRequest $credentials
      * @return Application|\Illuminate\Foundation\Application|RedirectResponse|Redirector
      */
-    public function store(RegisterRequest $credentials): \Illuminate\Foundation\Application|Redirector|RedirectResponse|Application
+    public function store(UserRegisterRequest $credentials): \Illuminate\Foundation\Application|Redirector|RedirectResponse|Application
     {
         try {
             $newUser = User::create($credentials->only(['name', 'email', 'username', 'password']));

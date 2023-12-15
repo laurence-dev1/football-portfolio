@@ -30,3 +30,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+
+axios.interceptors.response.use(undefined, function (error) {
+    // do not execute catch() blocks on programmatically cancelled requests()
+    if (error.config.signal.reason === 'forced_abort_request') {
+        return new Promise(() => {});
+    }
+
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error);
+});

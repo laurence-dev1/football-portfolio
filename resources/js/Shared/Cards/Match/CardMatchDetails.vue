@@ -2,6 +2,8 @@
 import { defineComponent } from 'vue'
 import date from "@/mixins/date.js";
 import BookmarkButton from "@/Shared/Util/BookmarkButton.vue";
+import { useUserAuthStore } from "@/store/User/useUserAuthStore.js";
+import { mapState } from "pinia";
 
 export default defineComponent({
     name: "CardMatchDetails",
@@ -14,6 +16,8 @@ export default defineComponent({
     },
 
     computed: {
+        ...mapState(useUserAuthStore, ['isAuthenticated']),
+
         formattedDate() {
             return date.formatUtcDate(this.matchDetails.utcDate);
         }
@@ -25,7 +29,7 @@ export default defineComponent({
     <div class="match__details card">
         <div class="details__head">
             <h4>Match Details</h4>
-            <BookmarkButton :dataToBookmark="matchDetails" type="match" />
+            <BookmarkButton v-if="isAuthenticated === true" :dataToBookmark="matchDetails" type="match" />
         </div>
         <hr>
 

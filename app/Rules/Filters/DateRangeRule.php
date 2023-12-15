@@ -38,6 +38,10 @@ class DateRangeRule implements DataAwareRule, ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if ($this->data['dateFrom'] === null || $this->data['dateTo'] === null) {
+            return;
+        }
+
         $from = new DateTime($this->data['dateFrom']);
         $to = new DateTime($this->data['dateTo']);
 

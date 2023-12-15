@@ -75,6 +75,11 @@ input[type=radio], input[type=checkbox] {
     transform: translateY(-2px) rotate(-45deg);
 }
 
+.form__auth button[type=submit] {
+    width: 70%;
+    margin-top: 1em;
+}
+
 @media screen and (max-width: 580px) {
     .card__message {
         width: 70%;
