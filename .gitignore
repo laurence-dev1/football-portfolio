@@ -19,3 +19,6 @@ yarn-error.log
 /.vscode
 
 dump.rdb
+football-portfolio.sql
+
+.vercel

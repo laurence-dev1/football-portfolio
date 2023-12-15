@@ -20,7 +20,7 @@ Laurence Suarez (laurence-dev1@github)
 * [Laravel](https://laravel.com/) (Laravel 10, PHP 8)
 * [Vue](https://vuejs.org/) 3 (With [Pinia](https://pinia.vuejs.org/))
 * [InertiaJS](https://inertiajs.com/)
-* MySQL
+* MySQL (Local) | PostgreSQL (Local/Prod)
 
 <a id="features"></a>
 ### Features:
@@ -34,10 +34,13 @@ Laurence Suarez (laurence-dev1@github)
 
 <a id="try"></a>
 ### Try the App
-The app is still in development and is not yet deployed into the public.
-Setting up on Local environment is necessary to try the app.
+The app will be served via [Vercel (Hobby Tier)](https://vercel.com/) and [ElephantSQL (Free Tier)](https://www.elephantsql.com/) for PostgreSQL storage.
 
-**Local Environment Setup:**
+To run on Vercel, community's PHP runtime (**vercel-php@0.6.0**) was used: https://github.com/vercel-community/php
+
+- Check it out here: https://football-portfolio.vercel.app
+
+**Or Local Environment Setup?**
 1. Clone/Fork the repository.
 2. Set up/Create **.env** file, you may copy the contents from the **.env.example** file included in the repository as a basis.
 3. Update and add new keys on the created **.env** file
@@ -53,6 +56,10 @@ Setting up on Local environment is necessary to try the app.
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <td>DB_CONNECTION</td>
+            <td>**mysql/pgsql**</td>
+        </tr>
         <tr>
             <td>DB_HOST</td>
             <td>**Your local db host**</td>
