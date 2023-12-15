@@ -1,5 +1,5 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import { Link } from "@inertiajs/vue3";
 import { useUserAuthStore } from "@/store/User/useUserAuthStore.js";
 import { useMessageStore } from "@/store/useMessageStore.js";
@@ -10,6 +10,7 @@ import UserIcon from "@/Shared/Util/Icons/UserIcon.vue";
 
 export default defineComponent({
     name: "Layout",
+    inject: ['axiosAbortSignal'],
     components: { UserIcon, NavLinks, SuccessCard, ErrorCard, Link },
     data() {
         return {
@@ -160,7 +161,8 @@ export default defineComponent({
                   class="button__logout"
                   href="/logout"
                   method="delete"
-                  as="button">Logout</Link>
+                  as="button"
+                  @click="axiosAbortSignal.abort('forced_abort_request')">Logout</Link>
             <Link v-else
                   class="nav__a"
                   href="/register">Register</Link>
