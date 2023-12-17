@@ -10,7 +10,6 @@ import UserIcon from "@/Shared/Util/Icons/UserIcon.vue";
 
 export default defineComponent({
     name: "Layout",
-    inject: ['axiosAbortSignal'],
     components: { UserIcon, NavLinks, SuccessCard, ErrorCard, Link },
     data() {
         return {
