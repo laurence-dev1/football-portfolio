@@ -10,6 +10,7 @@ import axios from "axios";
 
 // will be globally available (via provide/inject) to be used when aborting ongoing requests
 let abortController = new AbortController();
+axios.defaults.abortController = abortController;
 axios.defaults.signal = abortController.signal;
 
 createInertiaApp({
@@ -26,7 +27,6 @@ createInertiaApp({
 
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
-            .provide('axiosAbortSignal', abortController)
             .use(plugin)
             .use(createPinia())
             .mount(el)

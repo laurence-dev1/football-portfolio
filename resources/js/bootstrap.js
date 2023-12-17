@@ -33,7 +33,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 axios.interceptors.response.use(undefined, function (error) {
     // do not execute catch() blocks on programmatically cancelled requests()
-    if (error.config.signal.reason === 'forced_abort_request') {
+    if (error.config.signal.reason === 'logout') {
         return new Promise(() => {});
     }
 

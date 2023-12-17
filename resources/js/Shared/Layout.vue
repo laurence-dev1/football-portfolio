@@ -10,7 +10,6 @@ import UserIcon from "@/Shared/Util/Icons/UserIcon.vue";
 
 export default defineComponent({
     name: "Layout",
-    inject: ['axiosAbortSignal'],
     components: { UserIcon, NavLinks, SuccessCard, ErrorCard, Link },
     data() {
         return {
@@ -57,6 +56,15 @@ export default defineComponent({
                 burgerIcon.classList.remove('active');
                 userIcon.classList.remove('active');
             }
+        },
+
+        abortRequestsOnLogout() {
+            axios.defaults.abortController.abort('logout');
+
+            // Reset the used AbortController, since they are one-time use only.
+            const newAbortController = new AbortController();
+            axios.defaults.abortController = newAbortController;
+            axios.defaults.signal = newAbortController.signal;
         }
     },
 
@@ -162,7 +170,7 @@ export default defineComponent({
                   href="/logout"
                   method="delete"
                   as="button"
-                  @click="axiosAbortSignal.abort('forced_abort_request')">Logout</Link>
+                  @click="abortRequestsOnLogout">Logout</Link>
             <Link v-else
                   class="nav__a"
                   href="/register">Register</Link>
