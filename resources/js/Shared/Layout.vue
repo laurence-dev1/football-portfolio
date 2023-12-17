@@ -1,15 +1,16 @@
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import { Link } from "@inertiajs/vue3";
-import { useAuthStore } from "@/store/useAuthStore.js";
+import { useUserAuthStore } from "@/store/User/useUserAuthStore.js";
 import { useMessageStore } from "@/store/useMessageStore.js";
 import ErrorCard from "@/Shared/Util/ErrorCard.vue";
 import SuccessCard from "@/Shared/Util/SuccessCard.vue";
 import NavLinks from "@/Shared/NavLinks.vue";
+import UserIcon from "@/Shared/Util/Icons/UserIcon.vue";
 
 export default defineComponent({
     name: "Layout",
-    components: { NavLinks, SuccessCard, ErrorCard, Link },
+    components: { UserIcon, NavLinks, SuccessCard, ErrorCard, Link },
     data() {
         return {
             showNavLinks: false,
@@ -48,21 +49,28 @@ export default defineComponent({
             const burgerIcon = this.$refs.burgerIcon;
             const userIcon = this.$refs.userIcon;
             if (burgerIcon.contains(event.target) === false
-                && userIcon.contains(event.target) === false
-                && this.$refs.navCommon.contains(event.target) === false
-                && this.$refs.navAuth.contains(event.target) === false) {
+                && userIcon.contains(event.target) === false) {
 
                 this.showNavLinks = false;
                 this.showNavUsers = false;
                 burgerIcon.classList.remove('active');
                 userIcon.classList.remove('active');
             }
+        },
+
+        abortRequestsOnLogout() {
+            axios.defaults.abortController.abort('logout');
+
+            // Reset the used AbortController, since they are one-time use only.
+            const newAbortController = new AbortController();
+            axios.defaults.abortController = newAbortController;
+            axios.defaults.signal = newAbortController.signal;
         }
     },
 
     beforeMount() {
         // in case of page reload
-        useAuthStore().$patch({ isAuthenticated: this.$page.props.auth.user !== null })
+        useUserAuthStore().$patch({ isAuthenticated: this.$page.props.auth.user !== null })
     },
 
     mounted() {
@@ -78,7 +86,7 @@ export default defineComponent({
         // can change when logging out/in
         '$page.props.auth.user': {
             handler(user) {
-                useAuthStore().$patch({ isAuthenticated: user !== null })
+                useUserAuthStore().$patch({ isAuthenticated: user !== null })
             },
             deep: true
         },
@@ -135,12 +143,7 @@ export default defineComponent({
             </div>
             <div class="header__user" ref="userIcon" @click="toggleNav($event, 'showNavUsers')">
                 <!-- Auth -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 4 256 256" xml:space="preserve">
-                    <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                        <path d="M 45 53.718 c -10.022 0 -18.175 -8.153 -18.175 -18.175 S 34.978 17.368 45 17.368 c 10.021 0 18.175 8.153 18.175 18.175 S 55.021 53.718 45 53.718 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        <path d="M 45 0 C 20.187 0 0 20.187 0 45 c 0 24.813 20.187 45 45 45 c 24.813 0 45 -20.187 45 -45 C 90 20.187 69.813 0 45 0 z M 74.821 70.096 c -3.543 -5.253 -8.457 -9.568 -14.159 -12.333 c -2.261 -1.096 -4.901 -1.08 -7.247 0.047 c -2.638 1.268 -5.47 1.91 -8.415 1.91 c -2.945 0 -5.776 -0.643 -8.415 -1.91 c -2.343 -1.125 -4.984 -1.143 -7.247 -0.047 c -5.702 2.765 -10.616 7.08 -14.16 12.333 C 9.457 63.308 6 54.552 6 45 C 6 23.495 23.495 6 45 6 s 39 17.495 39 39 C 84 54.552 80.543 63.308 74.821 70.096 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                    </g>
-                </svg>
+                <UserIcon width="35" height="35" viewBox="0 4 256 256" />
             </div>
         </div>
     </header>
@@ -154,11 +157,23 @@ export default defineComponent({
 
     <Transition name="rollDown">
         <nav v-show="showNavUsers === true" :key="showNavUsers" class="nav__auth" ref="navAuth">
-            <Link v-if="hasUser === true" class="nav__a" href="/settings">User Settings</Link>
-            <Link v-else class="nav__a" href="/login">Login</Link>
+            <Link v-if="hasUser === true"
+                  class="nav__a"
+                  :class="{ 'nav-active' : $page.component === 'User/Settings' }"
+                  href="/settings">User Settings</Link>
+            <Link v-else
+                  class="nav__a"
+                  href="/login">Login</Link>
 
-            <Link v-if="hasUser === true" class="button__logout" href="/logout" method="delete" as="button">Logout</Link>
-            <Link v-else class="nav__a" href="/register">Register</Link>
+            <Link v-if="hasUser === true"
+                  class="button__logout"
+                  href="/logout"
+                  method="delete"
+                  as="button"
+                  @click="abortRequestsOnLogout">Logout</Link>
+            <Link v-else
+                  class="nav__a"
+                  href="/register">Register</Link>
         </nav>
     </Transition>
     <main class="main">
@@ -257,6 +272,7 @@ export default defineComponent({
 
     .nav__common,
     .nav__auth {
+        z-index: 99;
         position: fixed;
         top: 0;
         width: 100%;
@@ -266,8 +282,7 @@ export default defineComponent({
 
         display: flex;
         flex-direction: column;
-        padding: 5rem 1em 1em 1em;
-        gap: 1em;
+        padding-top: 3.5em;
 
         transition-property: display;
         transition-duration: 0.2s;
@@ -297,6 +312,7 @@ export default defineComponent({
         .nav__common,
         .nav__auth {
             font-size: 1.2rem;
+            padding-top: 3em;
         }
     }
 </style>

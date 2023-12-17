@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
-class LoginRequest extends FormRequest
+class UserInfoSettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::check() === false;
+        return Auth::check() === true;
     }
 
     /**
@@ -23,8 +24,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required',
-            'password' => 'required'
+            'name'     => 'required|max:255',
+            'email'    => ['required', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id())],
+            'username' => ['required', 'min:4', 'max:255', Rule::unique('users')->ignore(Auth::id())]
         ];
     }
 }

@@ -7,7 +7,7 @@ export default defineComponent({
     components: { Link },
     computed: {
         currentPage() {
-            return this.$page.component === 'Auth/Login' ? 'Login' : 'Register';
+            return this.$page.component === 'User/Login' ? 'Login' : 'Register';
         }
     }
 })

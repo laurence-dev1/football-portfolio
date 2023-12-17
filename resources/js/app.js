@@ -6,6 +6,12 @@ import { createInertiaApp } from '@inertiajs/vue3'
 
 import Layout from '@/Shared/Layout.vue';
 import { createPinia } from "pinia";
+import axios from "axios";
+
+// will be globally available (via provide/inject) to be used when aborting ongoing requests
+let abortController = new AbortController();
+axios.defaults.abortController = abortController;
+axios.defaults.signal = abortController.signal;
 
 createInertiaApp({
     resolve: name => {
