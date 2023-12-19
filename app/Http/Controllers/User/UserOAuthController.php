@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Service\Api\Socialite\SocialiteService;
+use Illuminate\Http\RedirectResponse;
 
 class UserOAuthController extends Controller
 {
@@ -25,21 +26,20 @@ class UserOAuthController extends Controller
     /**
      * login
      * Go to provider's login page
-     * @return mixed
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function login()
+    public function login(): RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
     {
-        return $this->socialiteService->redirect();
+        return $this->socialiteService->redirectToProvider();
     }
 
     /**
      * callback
      * Callback action after successful authentication
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function callback()
+    public function callback(): RedirectResponse
     {
-        $result = $this->socialiteService->handleCallback();
-        return redirect($result['auth'] === true ? '/' : '/register');
+        return redirect($this->socialiteService->handleCallback() === true ? '/' : '/register');
     }
 }

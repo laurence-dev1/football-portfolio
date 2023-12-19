@@ -75,6 +75,11 @@ export default defineComponent({
     },
 
     mounted() {
+        if (this.$page.props.flash.message !== null) {
+            useMessageStore().$patch({
+                errorMessages: { exception: this.$page.props.flash.message }
+            });
+        }
         document.addEventListener('click', this.detectOutsideClick);
     },
 

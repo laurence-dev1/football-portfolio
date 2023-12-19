@@ -24,17 +24,17 @@ abstract class SocialiteService
     }
 
     /**
-     * redirect
+     * redirectToProvider
      * Redirect to provider's page
      * @return RedirectResponse|\Illuminate\Http\RedirectResponse
      */
-    public abstract function redirect(): RedirectResponse|\Illuminate\Http\RedirectResponse;
+    public abstract function redirectToProvider(): RedirectResponse|\Illuminate\Http\RedirectResponse;
 
 
     /**
      * handleCallback
      * Handle callback from provider
-     * @return array
+     * @return bool
      */
-    public abstract function handleCallback(): array;
+    public abstract function handleCallback(): bool;
 }
