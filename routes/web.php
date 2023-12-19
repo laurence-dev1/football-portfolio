@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\UserOAuthController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\Bookmark\BookmarkMatchController;
@@ -38,6 +39,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [UserRegisterController::class, 'index']);
     Route::post('/register', [UserRegisterController::class, 'store']);
+
+    Route::get('/oauth/{provider}', [UserOAuthController::class, 'login']);
+    Route::get('/oauth/{provider}/callback', [UserOAuthController::class, 'callback']);
 });
 
 

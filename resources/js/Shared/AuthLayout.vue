@@ -1,13 +1,22 @@
 <script>
 import { defineComponent } from 'vue'
-import {Link} from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
+import GmailIcon from "@/Shared/Util/Icons/GmailIcon.vue";
+import FacebookIcon from "@/Shared/Util/Icons/FacebookIcon.vue";
 
 export default defineComponent({
     name: "AuthLayout",
-    components: { Link },
+    components: {FacebookIcon, GmailIcon, Link },
     computed: {
         currentPage() {
             return this.$page.component === 'User/Login' ? 'Login' : 'Register';
+        }
+    },
+
+    methods: {
+        redirectOauth(provider) {
+            // document object is used to prevent CORS issue
+            document.location = '/oauth/' + provider;
         }
     }
 })
@@ -23,6 +32,16 @@ export default defineComponent({
                 <p class="text_info">{{ currentPage }} an account to bookmark matches, competitions, teams etc.</p>
 
                 <slot></slot>
+
+                <p class="text_info mt-1">Other Sign In Options</p>
+                <div class="div__oauth mt-1">
+                    <button class="btn btn_common" @click="redirectOauth('google')">
+                        <GmailIcon />
+                    </button>
+                    <button class="btn btn_common" @click="redirectOauth('facebook')">
+                        <FacebookIcon />
+                    </button>
+                </div>
 
                 <div class="div__switch">
                     <hr>
@@ -61,6 +80,20 @@ export default defineComponent({
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+
+    .div__oauth {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .div__oauth button {
+        display: block;
+        text-decoration: none;
+        padding: 0.6em 1em;
+        font-size: 0.7em;
     }
 
     .div__switch {

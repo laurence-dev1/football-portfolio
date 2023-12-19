@@ -59,7 +59,7 @@ export default defineComponent({
             </div>
 
             <div class="div__icon-label-input">
-                <PlayerIcon />
+                <MailIcon />
                 <input type="text"
                        name="email"
                        id="email"
@@ -69,7 +69,7 @@ export default defineComponent({
             </div>
 
             <div class="div__icon-label-input">
-                <MailIcon />
+                <PlayerIcon />
                 <input type="text"
                        name="username"
                        id="username"

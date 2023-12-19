@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class StorageServiceProvider extends ServiceProvider
+class VercelStorageServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
