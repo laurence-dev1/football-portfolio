@@ -7,6 +7,7 @@ use App\Http\Controllers\Bookmark\BookmarkMatchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Service\MatchController;
 use App\Http\Controllers\User\UserSettingsController;
+use App\Http\Middleware\NotThirdPartyUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/settings', [UserSettingsController::class, 'index']);
     Route::patch('/settings/info', [UserSettingsController::class, 'updateInfo']);
-    Route::patch('/settings/password', [UserSettingsController::class, 'updatePassword']);
+    Route::patch('/settings/password', [UserSettingsController::class, 'updatePassword'])->middleware(NotThirdPartyUser::class);
 
     Route::get('/bookmarks/matches', [BookmarkMatchController::class, 'index']);
     Route::post('/bookmarks/matches', [BookmarkMatchController::class, 'store']);

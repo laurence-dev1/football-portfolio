@@ -66,7 +66,7 @@ export default defineComponent({
         <hr>
 
         <h5>Stats Table</h5>
-        <p class="text-info">Stats below are hard-coded data, not from API (due to free tier limitations)</p>
+        <p class="text_info">Stats below are hard-coded data, not from API (due to free tier limitations)</p>
 
         <MatchStatsTable />
     </div>
@@ -106,7 +106,7 @@ export default defineComponent({
         font-size: 2rem;
     }
 
-    .text-info {
+    .text_info {
         color: red;
     }
 

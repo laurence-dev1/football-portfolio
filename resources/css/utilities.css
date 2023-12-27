@@ -75,9 +75,11 @@
     cursor: not-allowed;
 }
 
-p.text_info {
+.text_info {
     font-size: 0.8rem;
     margin-top: 0.2em;
+    font-weight: bold;
+    color: var(--btn-active-bg);
 }
 
 .card {

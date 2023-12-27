@@ -55,6 +55,12 @@ class SocialiteGoogle extends SocialiteService
                     'refresh_token' => $userFromProvider->refreshToken
                 ]);
 
+            // update (if any)
+            $userModel->update([
+                'name'  => $userFromProvider->name,
+                'email' => $userFromProvider->email
+            ]);
+
             Auth::login($userModel->first());
             return true;
         }
