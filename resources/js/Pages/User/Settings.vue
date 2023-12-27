@@ -12,10 +12,15 @@ import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
 
 export default defineComponent({
     name: "Settings",
-    components: {LoadingIcon, LockIcon, PlayerIcon, MailIcon, UserIcon, Head },
+    components: { LoadingIcon, LockIcon, PlayerIcon, MailIcon, UserIcon, Head },
     props: {
         currentUser: {
             type: Object,
+            required: true
+        },
+
+        isThirdPartyUser: {
+            type: Boolean,
             required: true
         }
     },
@@ -87,7 +92,7 @@ export default defineComponent({
         </Head>
 
         <h2>User Info</h2>
-        <p class="text-info">Update name, username, and email</p>
+        <small class="text_info"><strong>Note: If you signed-in via 3rd Party Provider (e.g. Google, Facebook), changing of name and email is disabled.</strong></small>
 
         <div class="card mt-1">
             <h4>Name</h4>
@@ -98,7 +103,8 @@ export default defineComponent({
                        id="name"
                        v-model="userInfo.name"
                        placeholder="Name"
-                       autocomplete="name">
+                       autocomplete="name"
+                       :disabled="isThirdPartyUser === true">
             </div>
 
             <hr>
@@ -111,7 +117,8 @@ export default defineComponent({
                        id="email"
                        v-model="userInfo.email"
                        placeholder="Email Address"
-                       autocomplete="email">
+                       autocomplete="email"
+                       :disabled="isThirdPartyUser === true">
             </div>
 
             <hr>
@@ -141,8 +148,10 @@ export default defineComponent({
             </button>
         </div>
 
+        <hr>
+
         <h2 class="mt-1">Password</h2>
-        <p class="text-info">Update password</p>
+        <small class="text_info"><strong>Note: If you signed-in via 3rd Party Provider (e.g. Google, Facebook), adding passwords is not available.</strong></small>
 
         <div class="card mt-1">
             <h4>Current Password</h4>
@@ -152,7 +161,8 @@ export default defineComponent({
                        name="current-password"
                        id="current-password"
                        placeholder="Current Password"
-                       v-model="passwordInfo.current">
+                       v-model="passwordInfo.current"
+                       :disabled="isThirdPartyUser === true">
             </div>
 
             <hr>
@@ -164,7 +174,8 @@ export default defineComponent({
                        name="new-password"
                        id="new-password"
                        placeholder="New Password"
-                       v-model="passwordInfo.new">
+                       v-model="passwordInfo.new"
+                       :disabled="isThirdPartyUser === true">
             </div>
 
             <hr>
@@ -176,7 +187,8 @@ export default defineComponent({
                        name="confirm-password"
                        id="confirm-password"
                        placeholder="Confirm New Password"
-                       v-model="passwordInfo.new_confirmation">
+                       v-model="passwordInfo.new_confirmation"
+                       :disabled="isThirdPartyUser === true">
             </div>
 
             <button class="btn btn_common mt-1"

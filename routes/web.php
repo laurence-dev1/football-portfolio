@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\User\UserOAuthController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Http\Controllers\Bookmark\BookmarkMatchController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Service\MatchController;
 use App\Http\Controllers\User\UserSettingsController;
+use App\Http\Middleware\NotThirdPartyUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::get('/settings', [UserSettingsController::class, 'index']);
     Route::patch('/settings/info', [UserSettingsController::class, 'updateInfo']);
-    Route::patch('/settings/password', [UserSettingsController::class, 'updatePassword']);
+    Route::patch('/settings/password', [UserSettingsController::class, 'updatePassword'])->middleware(NotThirdPartyUser::class);
 
     Route::get('/bookmarks/matches', [BookmarkMatchController::class, 'index']);
     Route::post('/bookmarks/matches', [BookmarkMatchController::class, 'store']);
@@ -38,6 +40,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [UserRegisterController::class, 'index']);
     Route::post('/register', [UserRegisterController::class, 'store']);
+
+    Route::get('/oauth/{provider}', [UserOAuthController::class, 'login']);
+    Route::get('/oauth/{provider}/callback', [UserOAuthController::class, 'callback']);
 });
 
 

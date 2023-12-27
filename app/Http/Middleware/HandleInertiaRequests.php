@@ -41,7 +41,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 // use Auth::check to check for a logged-in user, not Auth::hasUser()
                 'user' => Auth::check() === true ? Auth::user()->only(['name', 'username']) : null
-            ]
+            ],
+            'flash' => ['message' => fn () => request()->session()->get('message')],
         ]);
     }
 }

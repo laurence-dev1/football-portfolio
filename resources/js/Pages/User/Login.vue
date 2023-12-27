@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
-import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Head, useForm } from "@inertiajs/vue3";
 import PlayerIcon from "@/Shared/Util/Icons/PlayerIcon.vue";
 import LockIcon from "@/Shared/Util/Icons/LockIcon.vue";
 import LoadingIcon from "@/Shared/Util/Icons/LoadingIcon.vue";
@@ -11,7 +11,7 @@ import { useMessageStore } from "@/store/useMessageStore.js";
 
 export default defineComponent({
     name: "Login",
-    components: { LoadingIcon, Head, Link, LockIcon, PlayerIcon },
+    components: { LoadingIcon, Head, LockIcon, PlayerIcon },
     layout: [ Layout, AuthLayout ],
 
     data() {

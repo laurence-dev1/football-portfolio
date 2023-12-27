@@ -169,7 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        App\Providers\StorageServiceProvider::class
+        App\Providers\VercelStorageServiceProvider::class,
+        App\Providers\SocialiteServiceProvider::class
     ])->toArray(),
 
     /*

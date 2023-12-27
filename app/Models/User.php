@@ -53,4 +53,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(BookmarkMatch::class, 'user_id', 'id');
     }
+
+    /**
+     * isThirdPartyUser
+     * Check if the user signed-in via Third Party Service (e.g. Google, Facebook)
+     * @return bool
+     */
+    public function isThirdPartyUser(): bool
+    {
+        return SocialiteLogin::where('user_id', $this->id)->exists() === true;
+    }
 }

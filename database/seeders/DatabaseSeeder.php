@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('123')
         ])->create();
 
-        User::factory(4)->create();
+        User::factory(2)->create();
+
         BookmarkMatch::factory([
             'user_id'      => User::first()->id,
             'api_match_id' => 327117

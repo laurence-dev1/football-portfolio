@@ -35,8 +35,11 @@ class UserSettingsController extends Controller
      */
     public function index(): Response
     {
+        $currentAuthUser = Auth::user();
+
         return Inertia::render('User/Settings', [
-            'currentUser' => Auth::user()->only(['name', 'username', 'email'])
+            'currentUser'      => $currentAuthUser->only(['name', 'username', 'email']),
+            'isThirdPartyUser' => $currentAuthUser->isThirdPartyUser()
         ]);
     }
 
