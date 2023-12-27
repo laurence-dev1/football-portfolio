@@ -106,7 +106,6 @@ class SocialiteGoogle extends SocialiteService
     private function generateUniqueUsername(string $name): string
     {
         $generatedUsername = preg_replace('/\s+/', '', strtolower($name));
-        // append random number string (8) from 10000000 - 99999999
-        return $generatedUsername . rand(pow(10, 8 - 1), pow(10, 8) - 1);
+        return $generatedUsername . rand(10000000, 99999999); // append random generated 8x integer
     }
 }
