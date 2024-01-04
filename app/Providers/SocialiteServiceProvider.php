@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Controllers\User\UserOAuthController;
 use App\Models\User;
+use App\Service\Api\Socialite\SocialiteFacebook;
 use App\Service\Api\Socialite\SocialiteGoogle;
 use App\Service\Api\Socialite\SocialiteService;
 use Illuminate\Support\Facades\App;
@@ -21,7 +22,8 @@ class SocialiteServiceProvider extends ServiceProvider
             ->give(function () {
                 $requestedProvider = request()->route('provider');
                 $availableProviders = [
-                    'google' => new SocialiteGoogle()
+                    'google'   => new SocialiteGoogle(),
+                    'facebook' => new SocialiteFacebook()
                 ];
 
                 if (array_key_exists($requestedProvider, $availableProviders) === true) {

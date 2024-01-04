@@ -4,13 +4,13 @@ namespace App\Service\Api\Socialite;
 
 use Illuminate\Support\Facades\Auth;
 
-class SocialiteGoogle extends SocialiteService
+class SocialiteFacebook extends SocialiteService
 {
 
     /**
      * PROVIDER
      */
-    const PROVIDER = 'google';
+    const PROVIDER = 'facebook';
 
     /**
      * __construct()
@@ -20,16 +20,12 @@ class SocialiteGoogle extends SocialiteService
         parent::__construct(self::PROVIDER);
     }
 
-    /**
-     * handleCallback
-     * @return bool
-     */
     public function handleCallback(): bool
     {
         $user = $this->handleUser();
 
         if ($user === false) {
-            session()->flash('message', 'There has been an error in validating your Google account. Kindly refresh the page and try again.');
+            session()->flash('message', 'There has been an error in validating your Facebook account. Kindly refresh the page and try again.');
             return false;
         }
 
